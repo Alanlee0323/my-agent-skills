@@ -1,72 +1,72 @@
-# Antigravity Global Skill Library
+# Antigravity 全域技能庫 (Global Skill Library)
 
-**Location**: `C:\Users\AlanY.Lee\.gemini\antigravity\skills`
-**Maintainer**: Agent Antigravity
-**Last Audit**: 2026-01-20
+**位置**: `C:\Users\AlanY.Lee\.gemini\antigravity\skills`
+**維護者**: Agent Antigravity
+**上次審計**: 2026-01-20
 
-This library contains **Context-Aware Agent Skills** designed to guide the AI through the entire software engineering lifecycle, from ideation to deployment.
+此技能庫包含 **情境感知 (Context-Aware) Agent Skills**，旨在引導 AI 完成從構思到部署的完整軟體工程生命週期。
 
 ---
 
-## 🛠️ Skill Inventory
+## 🛠️ 技能清單 (Skill Inventory)
 
-### 1. Ideation & Architecture
+### 1. 構思與架構 (Ideation & Architecture)
 - **[brainstorming](brainstorming/SKILL.md)**
-    - **Role**: Socratic Product Manager
-    - **Trigger**: "Brainstorm app idea", "Design a feature"
-    - **Output**: `product_design.md`
-    - **Key Feature**: Focuses on *What* to build, not *How*.
+    - **角色**: 蘇格拉底式產品經理
+    - **觸發**: "發想 App 點子", "設計一個功能"
+    - **產出**: `product_design.md`
+    - **核心特色**: 專注於 **做什麼 (What)**，而非 **怎麼做 (How)**。
 
-### 2. Planning & Engineering
+### 2. 規劃與工程 (Planning & Engineering)
 - **[planning](planning/SKILL.md)**
-    - **Role**: Software Architect
-    - **Trigger**: "Plan implementation", "How to build this"
-    - **Output**: `implementation_plan.md`
-    - **Key Feature**:
-        - **Context-Aware Standards**: Automatically enforces `pathlib`, `logging`, and Type Hints.
-        - **Smart Testing**: Distinguishes between **Unit Tests** (Logic) and **Sanity Checks** (ML Experiments).
+    - **角色**: 軟體架構師
+    - **觸發**: "規劃實作", "如何建立這個"
+    - **產出**: `implementation_plan.md`
+    - **核心特色**:
+        - **情境感知標準**: 自動強制使用 `pathlib`, `logging` 和 Type Hints。
+        - **智慧測試策略**: 區分 **單元測試** (邏輯) 與 **健全性檢查 (Sanity Checks)** (ML 實驗)。
 
-### 3. Execution & Debugging
-- **[debugging-code](debugging-code/SKILL.md)** *(formerly `troubleshooting`)*
-    - **Role**: Senior Debugger
-    - **Trigger**: "Fix this error", "Runtime exception"
-    - **Key Feature**: **English Reasoning / Chinese Output**. Enforces Root Cause Analysis before coding.
+### 3. 執行與除錯 (Execution & Debugging)
+- **[debugging-code](debugging-code/SKILL.md)** *(原 `troubleshooting`)*
+    - **角色**: 資深除錯專家
+    - **觸發**: "修復這個錯誤", "Runtime exception"
+    - **核心特色**: **英文推理 / 中文輸出**。在寫 Code 之前強制執行根因分析。
 
-### 4. Domain-Specific Tools (Active Enforcement)
-These skills do not just provide docs; they **enforce best practices** proactively.
+### 4. 領域特定工具 (主動執行)
+這些技能不僅提供文件，還會 **主動強制執行最佳實踐**。
 
 - **[using-ultralytics](using-ultralytics/SKILL.md)**
-    - **Domain**: YOLOv8/v9/v10/v11
-    - **Guardrail**: Checks for **Data Leakage** (Train/Val split) before training.
+    - **領域**: YOLOv8/v9/v10/v11
+    - **防護機制**: 在訓練前檢查 **資料洩漏 (Data Leakage)** (Train/Val 分割)。
 - **[using-mlflow](using-mlflow/SKILL.md)**
-    - **Domain**: Experiment Tracking
-    - **Guardrail**: Enforces standardized experiment naming conventions.
+    - **領域**: 實驗追蹤 (Experiment Tracking)
+    - **防護機制**: 強制執行標準化的實驗命名規範。
 - **[using-dvc](using-dvc/SKILL.md)**
-    - **Domain**: Data Version Control
-    - **Guardrail**: Ensures `dvc commit` and `git commit` are synchronized.
+    - **領域**: 資料版本控制 (Data Version Control)
+    - **防護機制**: 確保 `dvc commit` 與 `git commit` 保持同步。
 
-### 5. Deployment (CI/CD)
+### 5. 部署 (CI/CD)
 - **[cicd-skills](cicd-skills/SKILL.md)**
-    - **Role**: DevOps Engineer
-    - **Trigger**: "Deploy to production", "Pipeline failed"
-    - **Key Feature**: **Dynamic Context Switching**.
-        - If Project == `LB-ASM-X2648`: Uses specific lab IPs.
-        - If Other: Asks user for `{{TARGET_IP}}`.
+    - **角色**: DevOps 工程師
+    - **觸發**: "部署到正式環境", "Pipeline 失敗"
+    - **核心特色**: **動態情境切換**。
+        - 若專案為 `LB-ASM-X2648`: 使用特定實驗室 IP。
+        - 若為其他專案: 詢問使用者 `{{TARGET_IP}}`。
 
-### 6. Meta-Skills
+### 6. 元技能 (Meta-Skills)
 - **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
-    - **Role**: Skill Factory
-    - **Usage**: Used to generate *new* skills following this very standard.
+    - **角色**: 技能工廠
+    - **用途**: 用於生成符合此標準的 *新* 技能。
 
 ---
 
-## 🚀 Workflow Integration
+## 🚀 工作流程整合 (Workflow Integration)
 
-Typical lifecycle usage:
+典型生命週期用法:
 
-1.  `Brainstorming` -> Define the app.
-2.  `Planning` -> Create the checklist and select standards.
-3.  (Coding...)
-4.  `Debugging-Code` -> If errors occur.
-5.  `Using-*` -> When specific libraries are invoked.
-6.  `CI/CD` -> When deploying to testing/production servers.
+1.  `Brainstorming` -> 定義 App 內容。
+2.  `Planning` -> 建立檢查清單並選擇工程標準。
+3.  (Coding... 寫程式)
+4.  `Debugging-Code` -> 如果發生錯誤。
+5.  `Using-*` -> 當調用特定函式庫時。
+6.  `CI/CD` -> 當部署到測試/正式伺服器時。
