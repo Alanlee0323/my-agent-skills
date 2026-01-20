@@ -1,6 +1,6 @@
 ---
 name: using-mlflow
-description: Actively assists and enforces best practices for MLflow. Covers Tracking, Projects, Models, and Registry. Use when the user asks about MLflow features, APIs, implementation, or debugging.
+description: Provides MLflow documentation covering Tracking, Projects, Models, and Registry. Use when the user asks about MLflow features, APIs, implementation, or debugging.
 ---
 
 # MLflow Skill
@@ -15,7 +15,6 @@ This skill should be triggered when:
 - Implementing MLflow integration in machine learning pipelines
 - Debugging MLflow-related errors or issues
 - Seeking best practices for experiment tracking and model deployment
-- **Rule Enforcement**: Ensure experiment names are standardized (e.g., `[Project]_[Date]`) before logging runs.
 
 ## Quick Reference
 

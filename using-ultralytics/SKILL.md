@@ -1,6 +1,6 @@
 ---
 name: using-ultralytics
-description: Expert system for Ultralytics YOLOv8/v9/v10. Actively assists and enforces best practices for training, detection, segmentation, and deployment.
+description: Expert system for Ultralytics YOLOv8/v9/v10. Provides documentation on training, detection, segmentation, and deployment.
 ---
 
 # Ultralytics (YOLO) Skill
@@ -15,7 +15,6 @@ This skill should be triggered when:
 - Exporting models to ONNX, TensorRT, CoreML, etc.
 - Configuring datasets (COCO, custom YAML)
 - Debugging training pipelines or performance issues
-- **Rule Enforcement**: Check for data leakage! Ensure proper Train/Val split is defined in the YAML before starting training.
 
 ## Quick Reference
 

@@ -1,6 +1,6 @@
 ---
 name: using-dvc
-description:  Actively assists and enforces best practices for Data Version Control (DVC). Use when the user asks about versioning large files, creating pipelines, or reproducing experiments.
+description:  Provides commands and patterns for Data Version Control (DVC). Use when the user asks about versioning large files, creating pipelines, or reproducing experiments.
 ---
 
 # DVC Skill
@@ -14,7 +14,6 @@ This skill should be triggered when:
 - Defining and running reproducible data pipelines (`dvc.yaml`)
 - Tracking and comparing machine learning experiments
 - Debugging DVC cache or remote storage issues
-- **Rule Enforcement**: Always check if `dvc commit` and `git commit` are in sync when data changes.
 
 ## Quick Reference
 

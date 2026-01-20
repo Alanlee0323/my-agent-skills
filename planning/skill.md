@@ -42,37 +42,6 @@ description: Converts approved designs or detailed requirements into actionable,
     - **TDD**: Include steps for creating tests *before* implementation where appropriate.
     - **Verification**: Include a verification step after major implementation blocks (e.g., "Run tests", "Check browser").
 
-## Dynamic Engineering Standards
-
-When planning code, enforce these standards based on the tech stack:
-
-### A. Universal Standards (Always Apply)
-- **Path Handling**: ALWAYS use `pathlib` (No string concatenation for paths).
-- **Code Quality**: Use Python 3.10+ syntax and valid **Type Hints** (`def func(x: int) -> str:`).
-- **Logging**: Use `logging` module, never `print()` for status.
-
-### B. Conditional Standards (Apply if relevant)
-- **IF "Deep Learning"**:
-    - Use `torch.device` (Never hardcode "cuda").
-    - If `mlflow` used: Enforce `mlflow.log_params` and metrics.
-- **IF "Data Processing"**:
-    - Assume DVC versioning. Use relative paths.
-- **IF "Docker"**:
-    - No GUI popups (`cv2.imshow`). Save to disk instead.
-
-## Testing & Validation Strategy
-
-Do not blindly apply TDD. Use the correct strategy for the task:
-
-- **Logic (Deterministic)**:
-    - **Scope**: Parsers, Preprocessing, Metrics.
-    - **Action**: Create `pytest` Unit Tests.
-- **Experiments (Stochastic)**:
-    - **Scope**: Training Loops, Model Arch.
-    - **Action**: Use **Runtime Sanity Checks** (e.g., `assert x.shape == y.shape`).
-- **GPU Code**:
-    - **Action**: Add `@pytest.mark.skipif(not torch.cuda.is_available())`.
-
 ## Instructions
 
 - **Granularity**: If a step feels like it has "sub-steps", break it apart.
