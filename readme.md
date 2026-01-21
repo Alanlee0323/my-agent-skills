@@ -76,6 +76,9 @@
 - **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
     - **角色**: 技能工廠
     - **用途**: 用於生成符合此標準的 *新* 技能。
+- **[gemini-skill-reviewer](gemini-skill-reviewer/SKILL.md)**
+    - **角色**: 技能審計員 (QA Auditor)
+    - **用途**: 負責新技能的壓力測試、紅隊演練與合規性檢查。
 - **[conducting-postmortem](conducting-postmortem/SKILL.md)**
     - **角色**: 知識回饋循環 (Learning Loop)
     - **用途**: 分析除錯紀錄，自動優化其他技能的防護機制 (Self-Evolution)。

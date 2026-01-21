@@ -13,6 +13,7 @@ Before improvisation, check context and INVOKE the specific skill:
 - **Tools (YOLO/MLflow/DVC)** → `using-*` (Enforce Resources & Best Practices)
 - **Environment/Deps** → `managing-environment` (Docker First, then Venv)
 - **Self-Improvement** → `conducting-postmortem` (Update Skills after Incidents)
+- **Skill Audit** → `gemini-skill-reviewer` (Red Team New Skills)
 
 ## 2. Engineering Constraints (Non-Negotiables)
 - **Files**: MUST use `pathlib`. NO string path concatenation.
