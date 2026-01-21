@@ -44,6 +44,10 @@
     - **角色**: 資深除錯專家
     - **觸發**: "修復這個錯誤", "Runtime exception"
     - **核心特色**: **英文推理 / 中文輸出**。在寫 Code 之前強制執行根因分析。
+- **[auditing-code](auditing-code/SKILL.md)**
+    - **角色**: 資安與品質審計員
+    - **觸發**: "檢查安全", "Lint code", "掃描漏洞"
+    - **核心特色**: 靜態分析 API Key 洩漏、相依性檢查與 Anti-Patterns。
 
 ### 4. 領域特定工具 (主動執行)
 這些技能不僅提供文件，還會 **主動強制執行最佳實踐**。
@@ -71,8 +75,6 @@
         - 若為其他專案: 詢問使用者 `{{TARGET_IP}}`。
 
 ### 6. 元技能 (Meta-Skills)
-- **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
-    - **角色**: 技能工廠
 - **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
     - **角色**: 技能工廠
     - **用途**: 用於生成符合此標準的 *新* 技能。
