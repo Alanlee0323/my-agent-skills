@@ -2,7 +2,7 @@
 
 **位置**: `C:\Users\AlanY.Lee\.gemini\antigravity\skills`
 **維護者**: Agent Antigravity
-**上次審計**: 2026-01-20
+**上次審計**: 2026-01-21
 
 此技能庫包含 **情境感知 (Context-Aware) Agent Skills**，旨在引導 AI 完成從構思到部署的完整軟體工程生命週期。
 
@@ -25,6 +25,19 @@
     - **核心特色**:
         - **情境感知標準**: 自動強制使用 `pathlib`, `logging` 和 Type Hints。
         - **智慧測試策略**: 區分 **單元測試** (邏輯) 與 **健全性檢查 (Sanity Checks)** (ML 實驗)。
+- **[managing-environment](managing-environment/SKILL.md)**
+    - **角色**: 基礎設施架構師 (Infrastructure Architect)
+    - **觸發**: "安裝依賴", "Setup Project", "Docker"
+    - **核心特色**:
+        - **Docker First**: 強制檢查容器化狀態，優先建議 Docker 部署。
+        - **現代標準**: 預設使用 `pyproject.toml`，拒絕全域安裝。
+- **[handling-review](handling-review/SKILL.md)**
+    - **角色**: 技術守門員 (Technical Gatekeeper)
+    - **觸發**: "Code Review 反饋", "根據建議修改"
+    - **核心特色**:
+        - **對抗討好型人格**: 拒絕無意義的附和，優先考慮技術正確性。
+        - **YAGNI 守門**: 收到功能建議時，先檢查是否過度設計。
+        - **高訊噪比溝通**: 刪除 "感謝" 等廢話，專注於確認與執行。
 
 ### 3. 執行與除錯 (Execution & Debugging)
 - **[debugging-code](debugging-code/SKILL.md)** *(原 `troubleshooting`)*
@@ -44,6 +57,10 @@
 - **[using-dvc](using-dvc/SKILL.md)**
     - **領域**: 資料版本控制 (Data Version Control)
     - **防護機制**: 確保 `dvc commit` 與 `git commit` 保持同步。
+- **[evaluating-models](evaluating-models/SKILL.md)**
+    - **領域**: 模型評估專家 (Model Evaluation Expert)
+    - **觸發**: "評估模型", "分析結果", "比較實驗"
+    - **核心特色**: 自動解析混淆矩陣、PR 曲線，並與 MLflow 歷史最佳紀錄進行客觀對比。
 
 ### 5. 部署 (CI/CD)
 - **[cicd-skills](cicd-skills/SKILL.md)**
@@ -56,7 +73,12 @@
 ### 6. 元技能 (Meta-Skills)
 - **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
     - **角色**: 技能工廠
+- **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
+    - **角色**: 技能工廠
     - **用途**: 用於生成符合此標準的 *新* 技能。
+- **[conducting-postmortem](conducting-postmortem/SKILL.md)**
+    - **角色**: 知識回饋循環 (Learning Loop)
+    - **用途**: 分析除錯紀錄，自動優化其他技能的防護機制 (Self-Evolution)。
 
 ---
 

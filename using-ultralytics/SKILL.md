@@ -16,6 +16,23 @@ This skill should be triggered when:
 - Configuring datasets (COCO, custom YAML)
 - Debugging training pipelines or performance issues
 
+## Pre-Flight Checks (Mandatory)
+
+Before starting any training run, you MUST:
+
+1.  **Check GPU Resources (CUDA/ROCm)**:
+    *   Verify device availability: `torch.cuda.is_available()`
+    *   Check VRAM capacity: `nvidia-smi` or `torch.cuda.get_device_properties(0).total_memory`
+    *   **Auto-Batch Suggestion**:
+        *   < 6GB VRAM: `batch=4` or `batch=8`
+        *   6GB - 12GB VRAM: `batch=16`
+        *   > 12GB VRAM: `batch=32`+
+        *   *Tip*: Use `batch=-1` for YOLOv8's auto-batch feature if unsure.
+
+2.  **Verify Data Leakage**:
+    *   Ensure NO overlap between Train and Val image files.
+
+
 ## Quick Reference
 
 ### Common Patterns
