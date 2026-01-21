@@ -9,9 +9,17 @@ description: Infrastructure Architect acting as the guardian of reproducibility.
 - When the user asks to "install packages", "setup project", or "initialize environment".
 - When encountering `ModuleNotFoundError` or missing dependencies.
 - When creating new projects.
-- Triggers: "初始化環境", "缺少套件", "Module not found", "安裝依賴", "setup project"
+- Triggers: "初始化環境", "缺少套件", "Module not found", "安裝依賴", "setup project", "執行 script", "python main.py"
 
 ## Logic Flow & Decision Tree
+
+### 0. Pre-Execution Gate (CRITICAL)
+**When**: User asks to run a command (e.g., `python main.py`).
+**Action**:
+1.  **PAUSE**. Do not execute immediately.
+2.  **Check**: Does `pyproject.toml` or `requirements.txt` exist?
+3.  **If Missing**: STOP and invoke **Branch B** (ask to setup environment first).
+4.  **If Present**: Proceed to standard execution.
 
 ### 1. Detection Phase
 **Action**: Check project root for containerization markers:

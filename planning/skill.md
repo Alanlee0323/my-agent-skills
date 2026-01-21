@@ -12,8 +12,9 @@ description: Converts approved designs or detailed requirements into actionable,
 
 ## Workflow
 
-1.  **Read Context**
+1.  **Read Context & Standards**
     - Read `product_design.md` or the user's specific requirements.
+    - **MANDATORY**: Check `managing-environment` skill for Project Setup & Dependency standards (Docker/pyproject.toml).
 
 2.  **Atomic Task Decomposition**
     - Break the project down into a linear series of steps.

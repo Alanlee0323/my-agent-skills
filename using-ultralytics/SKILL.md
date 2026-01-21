@@ -14,7 +14,21 @@ This skill should be triggered when:
 - Running inference (detection, segmentation, pose estimation)
 - Exporting models to ONNX, TensorRT, CoreML, etc.
 - Configuring datasets (COCO, custom YAML)
+- Configuring datasets (COCO, custom YAML)
 - Debugging training pipelines or performance issues
+- **Training Config Requests**: "Set batch size to 128", "Train on CPU", "Use optimizer SGD"
+
+## Logic Flow & Decision Tree
+
+### 0. Configuration Gatekeeper (The OOM Stopper)
+**When**: User proposes specific training parameters (Batch Size, Device, Image Size).
+**Action**:
+1.  **PAUSE**. Perform a "Mental Simulation" of resource usage.
+2.  **Calculate (Heuristic)**:
+    *   `YOLOv8x` + `Batch 128` ≈ **40GB+ VRAM Needed**.
+    *   `CPU Training` + `Large Model` = **Extremely Slow (Days)**.
+3.  **BLOCK/WARN**:
+    > "Training YOLOv8x with Batch 128 requires ~40GB VRAM (A100 class). Your environment (Laptop GPU/CPU) will crash (OOM). Recommendation: Batch 4 or 8."
 
 ## Pre-Flight Checks (Mandatory)
 
