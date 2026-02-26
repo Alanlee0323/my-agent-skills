@@ -16,10 +16,10 @@ before_script:
 **Problem**: `git clone` fails if the directory exists.
 **Fix**: Use fetch & reset.
 ```bash
-if [ ! -d ~/Projects/LB-ASM-X2648 ]; then
-  git clone ...
+if [ ! -d "$PROJECT_DIR" ]; then
+  git clone "$REPO_URL" "$PROJECT_DIR"
 else
-  cd ~/Projects/LB-ASM-X2648
+  cd "$PROJECT_DIR"
   git fetch --all
   git reset --hard origin/$CI_COMMIT_BRANCH
 fi

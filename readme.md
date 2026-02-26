@@ -1,99 +1,79 @@
-# Antigravity 全域技能庫 (Global Skill Library)
+# Antigravity Skills Pack
 
-**位置**: `C:\Users\AlanY.Lee\.gemini\antigravity\skills`
-**維護者**: Agent Antigravity
-**上次審計**: 2026-01-21
+本目錄是跨專案共用的**全域技能庫**，提供「任務路由 + 實作守門 + 領域最佳實踐」三層能力，協助 AI 代理在多步驟工程任務中維持一致性與可追蹤性。
 
-此技能庫包含 **情境感知 (Context-Aware) Agent Skills**，旨在引導 AI 完成從構思到部署的完整軟體工程生命週期。
+## 1) 雙層架構
 
----
+```text
+your-project/
+├─ skills/                  ← 專案層（Project-Local）：只放該專案的差異覆寫
+│  └─ cicd-skills/
+│     └─ SKILL.md           ← 覆寫 global 同名 skill（優先載入）
+├─ my-agent-skills/         ← 全域層（Global）：本目錄，跨專案通用
+│  ├─ cicd-skills/
+│  │  └─ SKILL.md           ← 通用 trunk-based CI/CD 流程
+│  ├─ planning/
+│  ├─ ...
+│  └─ global-rules.md
+├─ AGENTS.md
+└─ skill_scheduler.py
+```
 
-## 🛠️ 技能清單 (Skill Inventory)
+### 優先順序規則
+- `skill_scheduler.py` 先掃 `./skills/`，再掃 `./my-agent-skills/`。
+- **同名 identifier 去重**：第一個被掃到的贏（= project-local 覆寫 global）。
+- 若 `./skills/` 不存在或為空，所有技能自動 fallback 到 global 層。
 
-### 1. 構思與架構 (Ideation & Architecture)
-- **[brainstorming](brainstorming/SKILL.md)**
-    - **角色**: 蘇格拉底式產品經理
-    - **觸發**: "發想 App 點子", "設計一個功能"
-    - **產出**: `product_design.md`
-    - **核心特色**: 專注於 **做什麼 (What)**，而非 **怎麼做 (How)**。
+### 何時使用哪一層？
 
-### 2. 規劃與工程 (Planning & Engineering)
-- **[planning](planning/SKILL.md)**
-    - **角色**: 軟體架構師
-    - **觸發**: "規劃實作", "如何建立這個"
-    - **產出**: `implementation_plan.md`
-    - **核心特色**:
-        - **情境感知標準**: 自動強制使用 `pathlib`, `logging` 和 Type Hints。
-        - **智慧測試策略**: 區分 **單元測試** (邏輯) 與 **健全性檢查 (Sanity Checks)** (ML 實驗)。
-- **[managing-environment](managing-environment/SKILL.md)**
-    - **角色**: 基礎設施架構師 (Infrastructure Architect)
-    - **觸發**: "安裝依賴", "Setup Project", "Docker"
-    - **核心特色**:
-        - **Docker First**: 強制檢查容器化狀態，優先建議 Docker 部署。
-        - **現代標準**: 預設使用 `pyproject.toml`，拒絕全域安裝。
-- **[handling-review](handling-review/SKILL.md)**
-    - **角色**: 技術守門員 (Technical Gatekeeper)
-    - **觸發**: "Code Review 反饋", "根據建議修改"
-    - **核心特色**:
-        - **對抗討好型人格**: 拒絕無意義的附和，優先考慮技術正確性。
-        - **YAGNI 守門**: 收到功能建議時，先檢查是否過度設計。
-        - **高訊噪比溝通**: 刪除 "感謝" 等廢話，專注於確認與執行。
+| 內容類型 | 放置位置 | 範例 |
+|---|---|---|
+| 跨專案通用流程 | `./my-agent-skills/` | trunk-based CI/CD、planning、code review |
+| 專案特定參數/覆寫 | `./skills/` | IP whitelist、job 名稱、硬體對照表 |
+| 專案獨有且不通用的 skill | `./skills/` | 專案私有部署腳本、內部 API 整合 |
 
-### 3. 執行與除錯 (Execution & Debugging)
-- **[debugging-code](debugging-code/SKILL.md)** *(原 `troubleshooting`)*
-    - **角色**: 資深除錯專家
-    - **觸發**: "修復這個錯誤", "Runtime exception"
-    - **核心特色**: **英文推理 / 中文輸出**。在寫 Code 之前強制執行根因分析。
-- **[auditing-code](auditing-code/SKILL.md)**
-    - **角色**: 資安與品質審計員
-    - **觸發**: "檢查安全", "Lint code", "掃描漏洞"
-    - **核心特色**: 靜態分析 API Key 洩漏、相依性檢查與 Anti-Patterns。
+### 撰寫 Project Override 的原則
+1. **只寫差異**：繼承 global 的流程，只覆寫專案特定細節（IP、環境、job 名稱）。
+2. **保持同名**：`name` frontmatter 必須與 global skill 的 identifier 一致，scheduler 才能正確去重。
+3. **交叉引用**：在 override 中註明「通用流程請參考 global skill」，避免內容重複維護。
 
-### 4. 領域特定工具 (主動執行)
-這些技能不僅提供文件，還會 **主動強制執行最佳實踐**。
+## 2) Global Skill Inventory（含潛在風險）
 
-- **[using-ultralytics](using-ultralytics/SKILL.md)**
-    - **領域**: YOLOv8/v9/v10/v11
-    - **防護機制**: 在訓練前檢查 **資料洩漏 (Data Leakage)** (Train/Val 分割)。
-- **[using-mlflow](using-mlflow/SKILL.md)**
-    - **領域**: 實驗追蹤 (Experiment Tracking)
-    - **防護機制**: 強制執行標準化的實驗命名規範。
-- **[using-dvc](using-dvc/SKILL.md)**
-    - **領域**: 資料版本控制 (Data Version Control)
-    - **防護機制**: 確保 `dvc commit` 與 `git commit` 保持同步。
-- **[evaluating-models](evaluating-models/SKILL.md)**
-    - **領域**: 模型評估專家 (Model Evaluation Expert)
-    - **觸發**: "評估模型", "分析結果", "比較實驗"
-    - **核心特色**: 自動解析混淆矩陣、PR 曲線，並與 MLflow 歷史最佳紀錄進行客觀對比。
+| Skill | 主要職責 | 潛在風險 | 風險控制建議 |
+|---|---|---|---|
+| [brainstorming-product-design](brainstorming/skill.md) | 需求探索與產品構想釐清 | 需求尚未收斂就進入實作，造成返工 | 先輸出可驗證需求，再交由 planning 拆解 |
+| [planning-implementation](planning/skill.md) | 產出可執行的實作步驟 | 過度規劃或步驟粒度不一致，影響執行效率 | 強制原子化步驟，並在每階段加入驗證點 |
+| [managing-environment](managing-environment/SKILL.md) | 依賴安裝、環境初始化、容器化決策 | Docker-first 在非容器場景可能增加啟動成本 | 先檢查專案現況，保留 venv/conda 合理落地分支 |
+| [handling-review](handling-review/SKILL.md) | 審查意見技術化評估與執行 | 過度保守造成變更吞吐下降 | 區分阻斷性問題與一般建議，採分層處理 |
+| [auditing-code](auditing-code/SKILL.md) | 靜態分析、資安檢查、反模式偵測 | 誤報造成噪音，影響決策速度 | 將檢查結果分級（Critical/High/Info）並附可重現證據 |
+| [managing-cicd-workflow](cicd-skills/SKILL.md) | 通用 trunk-based CI/CD 流程 | 過度通用導致專案細節遺漏 | 搭配 `./skills/` project override 補充專案參數 |
+| [evaluating-models](evaluating-models/SKILL.md) | 模型評估、指標比較、結果解讀 | 指標導向偏誤，忽略資料品質與成本約束 | 評估結論必須同時附資料假設與使用情境 |
+| [using-ultralytics](using-ultralytics/SKILL.md) | YOLO 系列訓練/推論/部署指引 | 版本更新快，文件易過期 | 引用前標註版本，必要時回查官方文件 |
+| [using-mlflow](using-mlflow/SKILL.md) | MLflow Tracking/Registry 實作指引 | 實驗命名與追蹤規範不一致，導致可追溯性下降 | 先統一命名規範與 artifact policy 再執行 |
+| [using-dvc](using-dvc/SKILL.md) | 資料與模型版本治理 | `dvc commit` / `git commit` 不同步造成狀態漂移 | 在流程中加入同步檢查與 pre-commit 驗證 |
+| [creating-agent-skills](gemini-skill-creator/skill.md) | 生成新技能框架與模板 | 快速生成可能複製舊規範缺陷 | 產出後必須經 reviewer skill 審核 |
+| [reviewing-agent-skills](gemini-skill-reviewer/SKILL.md) | 技能品質審計與紅隊檢查 | 審計規則若過嚴會抑制迭代速度 | 以風險優先級定義必過/可延後項目 |
+| [conducting-postmortem](conducting-postmortem/SKILL.md) | 事故回饋與技能持續改進 | 事故樣本偏差造成錯誤優化方向 | 要求跨事件比對，避免單一案例過擬合 |
 
-### 5. 部署 (CI/CD)
-- **[cicd-skills](cicd-skills/SKILL.md)**
-    - **角色**: DevOps 工程師
-    - **觸發**: "部署到正式環境", "Pipeline 失敗"
-    - **核心特色**: **動態情境切換**。
-        - 若專案為 `LB-ASM-X2648`: 使用特定實驗室 IP。
-        - 若為其他專案: 詢問使用者 `{{TARGET_IP}}`。
+## 3) 路由與治理建議
 
-### 6. 元技能 (Meta-Skills)
-- **[gemini-skill-creator](gemini-skill-creator/SKILL.md)**
-    - **角色**: 技能工廠
-    - **用途**: 用於生成符合此標準的 *新* 技能。
-- **[gemini-skill-reviewer](gemini-skill-reviewer/SKILL.md)**
-    - **角色**: 技能審計員 (QA Auditor)
-    - **用途**: 負責新技能的壓力測試、紅隊演練與合規性檢查。
-- **[conducting-postmortem](conducting-postmortem/SKILL.md)**
-    - **角色**: 知識回饋循環 (Learning Loop)
-    - **用途**: 分析除錯紀錄，自動優化其他技能的防護機制 (Self-Evolution)。
+1. **先跑 scheduler，再執行技能**：避免憑直覺選錯技能。
+2. **預設採「Plan → Domain → Review」順序**：降低漏檢與回滾成本。
+3. **對高風險任務（部署、資料、相依）保留人工確認點**。
+4. 若出現 guardrail 警告，優先處理「候選篩選噪音」而非盲目提高 read limit。
+5. **專案特化需求一律走 `./skills/` override**，不要修改本目錄內的 global skill。
 
----
+## 4) 維運建議（給技能維護者）
 
-## 🚀 工作流程整合 (Workflow Integration)
-
-典型生命週期用法:
-
-1.  `Brainstorming` -> 定義 App 內容。
-2.  `Planning` -> 建立檢查清單並選擇工程標準。
-3.  (Coding... 寫程式)
-4.  `Debugging-Code` -> 如果發生錯誤。
-5.  `Using-*` -> 當調用特定函式庫時。
-6.  `CI/CD` -> 當部署到測試/正式伺服器時。
+- 每次新增/修改 skill，至少更新：
+  - 對應 frontmatter（`name`, `description`）
+  - 觸發條件（When to use this skill）
+  - 風險與限制（至少 1 條）
+- 建議定期檢查：
+  - 路由名稱是否與檔名/identifier 一致
+  - 是否存在專案綁定假設（IP、平台、路徑）未被明確標記
+  - 全域規則與各 skill 規則是否衝突
+- **Project override 維護**：
+  - override 的 `name` 必須與 global skill 完全一致
+  - override 不應複製 global 的流程內容，只寫差異
+  - 當 global skill 變更時，檢查現有 override 是否仍相容

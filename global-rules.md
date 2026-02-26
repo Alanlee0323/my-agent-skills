@@ -1,12 +1,12 @@
 # Antigravity Operating System
-**Root Path**: `~/.gemini/antigravity/skills`
+**Root Path**: `./my-agent-skills` (project-local Codex setup)
 
 
 ## 1. Skill Routing (Primary Directive)
 Before improvisation, check context and INVOKE the specific skill:
 - **New Idea/Feature** → `brainstorming` (Focus: WHAT)
 - **Implementation** → `planning` + `managing-environment` (Focus: HOW & Standards)
-- **Errors/Crash** → `debugging-code` (Root Cause First)
+- **Errors/Crash** → `auditing-code` (Root Cause First)
 - **Feedback/Requests** → `handling-review` **(Focus: Rigor & Ethics)**
 - **Deployment** → `cicd-skills` (Check Project Context)
 - **Analysis/Evaluation** → `evaluating-models` (Objective Metrics)
