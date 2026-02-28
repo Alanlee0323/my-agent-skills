@@ -1,0 +1,9 @@
+require_scheduler_for_complex_tasks: true
+require_json_output: true
+no_destructive_git: true
+default_max_skill_reads: 3
+max_scheduler_retries: 2
+require_traceable_routing_status: true
+require_intent_whitelist: true
+require_absolute_scheduler_path: true
+

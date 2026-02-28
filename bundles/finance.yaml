@@ -1,0 +1,17 @@
+name: finance
+description: Financial statement analysis, macro regime interpretation, valuation, and long-term investing discipline bundle
+skills:
+  - planning-financial-analysis
+  - parsing-sec-filings
+  - normalizing-financial-statements
+  - analyzing-business-quality
+  - valuing-company
+  - analyzing-macro-regime
+  - managing-long-term-investment-policy
+  - verifying-financial-conclusions
+  - reviewing-financial-analysis
+  - conducting-investment-postmortem
+  - creating-skills-from-knowledge-folder
+policy_overrides:
+  output_language: zh-TW
+  max_skill_reads: 5

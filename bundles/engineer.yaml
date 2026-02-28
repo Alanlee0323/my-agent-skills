@@ -1,0 +1,13 @@
+name: engineer
+description: Engineering workflow bundle for coding and implementation agents
+skills:
+  - planning-implementation
+  - managing-environment
+  - auditing-code
+  - handling-review
+  - managing-cicd-workflow
+  - conducting-postmortem
+  - creating-skills-from-knowledge-folder
+policy_overrides:
+  output_language: zh-TW
+  max_skill_reads: 3

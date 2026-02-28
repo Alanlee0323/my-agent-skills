@@ -45,7 +45,7 @@ Draft an update to the `SKILL.md` to prevent this specific failure mode.
 **Incident**: User faced `RuntimeError: dataset.yaml not found` when training YOLO.
 **Analysis**: The `using-ultralytics` skill mentions datasets but doesn't force a path check.
 **Action**:
-1.  Open `skills/using-ultralytics/SKILL.md`.
+1.  Open `my-agent-skills/skills/engineer/using-ultralytics/SKILL.md`.
 2.  Add a check to "Pre-Flight Checks":
     > "Verify `data` YAML path exists and is absolute before passing to `model.train()`."
 3.  Notify User: "I've updated my internal protocols to always verify YAML paths before training in the future."

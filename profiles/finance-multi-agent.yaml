@@ -1,0 +1,10 @@
+name: finance-multi-agent
+bundle: finance
+agents:
+  - codex
+  - copilot
+  - gemini
+skills_repo: my-agent-skills
+adapter_output: .agent
+max_skill_reads: 5
+generate_launchers: true
