@@ -1,169 +1,74 @@
+# GitLab CI Template: Trunk-Based Development with Branch for Release
+# Philosophy: main -> Staging (Auto), tags -> Production (Manual/Auto)
+
 stages:
-  - deploy-test
+  - build
+  - test
+  - deploy-staging
   - deploy-prod
 
 # -----------------------------------------------------------------------------
-# 通用基礎設定 (Base Anchor) - 減少重複代碼
+# Base SSH Configuration Template (Generic)
 # -----------------------------------------------------------------------------
 .base_ssh_setup: &base_ssh_setup
-  tags:
-    - internal-net
   image: alpine:latest
-  when: manual
   before_script:
     - apk add --no-cache openssh-client git
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > /tmp/ssh_key 2>/dev/null || true
-    - |
-      if [ -s /tmp/ssh_key ] && grep -q "PRIVATE KEY" /tmp/ssh_key; then
-        chmod 600 /tmp/ssh_key
-        ssh-add /tmp/ssh_key
-      else
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-      fi
+    - echo "$SSH_PRIVATE_KEY" | base64 -d | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    # 🔍 變數驗證：提前檢查必要變數是否已設定
+    - ssh-keyscan -H "$TARGET_HOST" >> ~/.ssh/known_hosts
+
+# -----------------------------------------------------------------------------
+# Generic Deployment Script Template
+# -----------------------------------------------------------------------------
+.deploy_script_template: &deploy_script_template
+  script:
+    - echo "🚀 Deploying to $TARGET_HOST ($ENVIRONMENT_NAME)..."
     - |
-      echo "=========================================="
-      echo "🔍 Validating environment variables..."
-      echo "=========================================="
-      MISSING=""
-      [ -z "$SSH_HOST" ] && MISSING="$MISSING SSH_HOST"
-      [ -z "$SSH_USER" ] && MISSING="$MISSING SSH_USER"
-      [ -z "$MYSQL_HOST" ] && MISSING="$MISSING MYSQL_HOST"
-      [ -z "$MYSQL_PORT" ] && MISSING="$MISSING MYSQL_PORT"
-      [ -z "$MYSQL_USER" ] && MISSING="$MISSING MYSQL_USER"
-      [ -z "$MYSQL_PASSWORD" ] && MISSING="$MISSING MYSQL_PASSWORD"
-      [ -z "$MYSQL_DB" ] && MISSING="$MISSING MYSQL_DB"
-      if [ -n "$MISSING" ]; then
-        echo "❌ ERROR: Missing required variables:$MISSING"
-        echo "Please check GitLab CI/CD Variables settings."
-        exit 1
-      fi
-      echo "✅ SSH_HOST: $SSH_HOST"
-      echo "✅ SSH_USER: $SSH_USER"
-      echo "✅ MYSQL_HOST: $MYSQL_HOST"
-      echo "✅ MYSQL_PORT: $MYSQL_PORT"
-      echo "✅ MYSQL_USER: $MYSQL_USER"
-      echo "✅ MYSQL_PASSWORD: (hidden)"
-      echo "✅ MYSQL_DB: $MYSQL_DB"
-      echo "✅ All required variables are set!"
-      echo "=========================================="
+      ssh $TARGET_USER@$TARGET_HOST "
+        if [ ! -d $PROJECT_ROOT ]; then
+          mkdir -p $PROJECT_ROOT
+          git clone $REPO_URL $PROJECT_ROOT
+        fi
+        cd $PROJECT_ROOT
+        git fetch --all --prune
+        git checkout $CI_COMMIT_BRANCH || git checkout -b $CI_COMMIT_BRANCH origin/$CI_COMMIT_BRANCH
+        git merge --ff-only origin/$CI_COMMIT_BRANCH
+        git checkout --detach $CI_COMMIT_SHA
+        # Add your custom build/restart commands here
+        # docker-compose up -d --build
+      "
+    - echo "✅ Deployment to $ENVIRONMENT_NAME complete!"
 
 # -----------------------------------------------------------------------------
-# 測試機模板
+# JOBS: STAGING (Automatic on 'main' branch)
 # -----------------------------------------------------------------------------
-.test_template: &test_template
+deploy_staging:
   <<: *base_ssh_setup
-  stage: deploy-test
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-
-# -----------------------------------------------------------------------------
-# 正式機模板
-# -----------------------------------------------------------------------------
-.prod_template: &prod_template
-  <<: *base_ssh_setup
-  stage: deploy-prod
+  <<: *deploy_script_template
+  stage: deploy-staging
+  variables:
+    ENVIRONMENT_NAME: "Staging"
+    TARGET_HOST: $STAGING_HOST
+    TARGET_USER: $STAGING_USER
+    PROJECT_ROOT: $STAGING_PROJECT_ROOT
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
 
 # -----------------------------------------------------------------------------
-# AMD GPU 主機 (ROCm) - 測試機
+# JOBS: PRODUCTION (Triggered by Tags 'v*')
 # -----------------------------------------------------------------------------
-deploy_amd_test:
-  <<: *test_template
-  environment: 
-    name: amd-test  # 🔴 關鍵修正：對應 UI 變數 Scope
+deploy_production:
+  <<: *base_ssh_setup
+  <<: *deploy_script_template
+  stage: deploy-prod
+  when: manual  # Safety guard: Manual approval for Prod
   variables:
-    TARGET_HOST: $SSH_HOST
-    TARGET_USER: $SSH_USER
-    COMPOSE_PROFILE: "rocm"
-  script:
-    - echo "🚀 Deploying to AMD Test Host ($TARGET_HOST)"
-    # Step 1: Clone or Pull (保持你的邏輯)
-    - |
-      ssh -o StrictHostKeyChecking=no $TARGET_USER@$TARGET_HOST "
-        if [ ! -d ~/Projects/LB-ASM-X2648 ]; then
-          echo '📦 Project not found, cloning...'
-          mkdir -p ~/Projects
-          git clone http://${DEPLOY_TOKEN_USER}:${DEPLOY_TOKEN}@dad-edge01.radiant.com.tw:8888/tiger/hbr_nj_yolov11.git ~/Projects/LB-ASM-X2648
-        else
-          echo '🔄 Project exists, pulling latest...'
-          cd ~/Projects/LB-ASM-X2648 && git pull origin $CI_COMMIT_BRANCH
-        fi
-      "
-    # Step 2: Generate .env
-    - |
-      echo "Generating .env..."
-      cat <<EOF | ssh $TARGET_USER@$TARGET_HOST "cat > ~/Projects/LB-ASM-X2648/.env"
-      LOG_LEVEL=${LOG_LEVEL}
-      MYSQL_ENABLE=${MYSQL_ENABLE}
-      MYSQL_HOST=${MYSQL_HOST}
-      MYSQL_PORT=${MYSQL_PORT}
-      MYSQL_USER=${MYSQL_USER}
-      MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      MYSQL_DB=${MYSQL_DB}
-      HADES_ENABLE=${HADES_ENABLE}
-      HADES_URL=${HADES_URL}
-      EOF
-    # Step 3: Allow X11 access and start container
-    - ssh $TARGET_USER@$TARGET_HOST "DISPLAY=:0 xhost +local:docker && cd ~/Projects/LB-ASM-X2648 && DISPLAY=:0 docker compose -f docker/docker-compose.yml --profile ${COMPOSE_PROFILE} up -d"
-    - echo "✅ AMD Test deployment complete!"
-
-# -----------------------------------------------------------------------------
-# NVIDIA 4080 主機 (CUDA) - 正式機
-# -----------------------------------------------------------------------------
-deploy_nvidia_4080:
-  <<: *prod_template
-  environment: 
-    name: nv-4080   # 🔴 關鍵修正：對應 UI 變數 Scope
-  variables:
-    TARGET_HOST: $SSH_HOST
-    TARGET_USER: $SSH_USER
-    COMPOSE_PROFILE: "cuda"
-  script:
-    - echo "🚀 Deploying to NVIDIA 4080 Host ($TARGET_HOST)..."
-    - ssh-keyscan -H "$TARGET_HOST" >> ~/.ssh/known_hosts
-    # 🔴 修正：補上 Clone 判斷邏輯，避免資料夾不存在報錯
-    - |
-      ssh $TARGET_USER@$TARGET_HOST "
-        if [ ! -d ~/Projects/LB-ASM-X2648 ]; then
-          mkdir -p ~/Projects
-          git clone http://${DEPLOY_TOKEN_USER}:${DEPLOY_TOKEN}@dad-edge01.radiant.com.tw:8888/tiger/hbr_nj_yolov11.git ~/Projects/LB-ASM-X2648
-        else
-          cd ~/Projects/LB-ASM-X2648 && git pull origin main
-        fi
-      "
-    # 🔴 修正：補上 .env 生成，確保正式機參數正確
-    - |
-      echo "Generating .env for Production..."
-      cat <<EOF | ssh $TARGET_USER@$TARGET_HOST "cat > ~/Projects/LB-ASM-X2648/.env"
-      LOG_LEVEL=${LOG_LEVEL}
-      MYSQL_ENABLE=${MYSQL_ENABLE}
-      MYSQL_HOST=${MYSQL_HOST}
-      MYSQL_PORT=${MYSQL_PORT}
-      MYSQL_USER=${MYSQL_USER}
-      MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      MYSQL_DB=${MYSQL_DB}
-      HADES_ENABLE=${HADES_ENABLE}
-      HADES_URL=${HADES_URL}
-      EOF
-    # Start Docker with X11 access
-    - ssh $TARGET_USER@$TARGET_HOST "DISPLAY=:0 xhost +local:docker && cd ~/Projects/LB-ASM-X2648 && DISPLAY=:0 docker compose -f docker/docker-compose.yml --profile $COMPOSE_PROFILE up -d"
-
-# -----------------------------------------------------------------------------
-# 正式機 - 停止推論服務
-# -----------------------------------------------------------------------------
-stop_nvidia_4080:
-  <<: *prod_template
-  environment: 
-    name: nv-4080
-  variables:
-    TARGET_HOST: $SSH_HOST
-    TARGET_USER: $SSH_USER
-  script:
-    - echo "🛑 Stopping inference service on NVIDIA 4080 Host ($TARGET_HOST)..."
-    - ssh -o StrictHostKeyChecking=no $TARGET_USER@$TARGET_HOST "cd ~/Projects/LB-ASM-X2648 && docker compose stop || docker stop x2648_asm_inference_cuda || true"
-    - echo "✅ Service stopped!"
+    ENVIRONMENT_NAME: "Production"
+    TARGET_HOST: $PROD_HOST
+    TARGET_USER: $PROD_USER
+    PROJECT_ROOT: $PROD_PROJECT_ROOT
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+/'

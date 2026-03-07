@@ -1,9 +1,17 @@
 name: engineer
 description: Engineering workflow bundle for coding and implementation agents
 skills:
+  - brainstorming-product-design
   - planning-implementation
+  - sdd-driven-development
   - managing-environment
   - auditing-code
+  - debugging-code
+  - instrumenting-observability
+  - evaluating-models
+  - using-dvc
+  - using-mlflow
+  - using-ultralytics
   - handling-review
   - managing-cicd-workflow
   - conducting-postmortem

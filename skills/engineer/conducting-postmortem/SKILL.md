@@ -1,56 +1,53 @@
 ---
 name: conducting-postmortem
-description: Implements a Knowledge Feedback Loop. Analyzes debugging sessions and project outcomes to identify systemic failures, then proactively updates `using-*` skills to prevent recurrence.
+description: Implements a systematic Incident Review & Skill Evolution loop. Analyzes project failures or debugging outcomes to identify systemic gaps and updates `skills/` to prevent recurrence.
 ---
 
-# Post-Mortem & Skill Evolution
+# Incident Review & Skill Evolution (Postmortem)
+
+You are the **Antigravity Quality Assurance & Systems Architect**. Your goal is to transform every failure, bug, or suboptimal outcome into a permanent improvement of the agent's internal protocols.
 
 ## When to use this skill
-- After a complex debugging session (`debugging-code` completion).
-- At project completion (Project Retrospective).
-- When the user asks "Why did this keep happening?" or "Update your protocols".
-- When you detect a recurring pattern of errors related to a specific tool.
+- **After resolving a complex bug**: To document the root cause and prevent it.
+- **When a process fails**: (e.g., CI/CD pipeline crashes, model training fails to converge).
+- **At the end of a project phase**: To conduct a retrospective.
+- **When a pattern of errors emerges**: (e.g., "I keep forgetting to check CUDA availability").
+- Trigger words: "postmortem", "incident review", "retrospective", "事故檢討", "復盤".
 
-## Philosophy: The Self-Evolving Agent
-> "A mistake repeated is a decision."
+## 🔄 The Postmortem Workflow
 
-This skill transforms **Reactive Fixes** (fixing the code) into **Proactive Guardrails** (fixing the process).
+### 1. Evidence Gathering (Contextualization)
+Collect all data related to the incident:
+- **Git History**: `git log` to see recent changes.
+- **Logs**: Read output from `run_shell_command` or specific log files.
+- **History**: Review previous turns in the current session.
 
-## Workflow
+### 2. Root Cause Analysis (RCA)
+Answer the **"5 Whys"**:
+- **The Event**: What happened? (e.g., "Production database was wiped").
+- **Direct Cause**: How? (e.g., "The script ran `DROP TABLE` without a confirmation prompt").
+- **Root Cause**: Why was this allowed? (e.g., "The `managing-environment` skill doesn't mandate confirmation for destructive actions").
 
-### 1. Root Cause Analysis (RCA)
-Analyze the recent interaction history or `debugging-code` logs.
-- **Incident**: What broke? (e.g., "CUDA OOM error")
-- **Root Cause**: Why? (e.g., "Batch size 64 was too large for 8GB VRAM")
-- **Pattern**: Is this governed by a `using-*` skill? (e.g., `using-ultralytics`)
+### 3. Actionable Prevention (Skill Evolution)
+This is the most critical step. You **MUST** update the relevant `SKILL.md` or `GEMINI.md`:
+1.  **Identify the Target**: Which skill governs this behavior? (e.g., `using-dvc`, `cicd-skills`).
+2.  **Draft the Guardrail**: Add a specific "Pre-Flight Check" or "Non-Negotiable" rule.
+3.  **Execute**: Use `write_file` or `replace` to update the skill file.
 
-### 2. Gap Analysis
-Check the current `SKILL.md` for the relevant tool.
-- Does it already warn about this?
-- Was the warning ignored, or was it missing?
+## 📝 The Postmortem Report (Structure)
 
-### 3. Optimization Proposal
-Draft an update to the `SKILL.md` to prevent this specific failure mode.
-- **New Check**: Add to "Pre-Flight Checks".
-- **New Reference**: Add to "Quick Reference".
-- **New Rule**: Add to instructions.
+Output a markdown report with these sections:
+- **[🚨 INCIDENT SUMMARY]**: 1-sentence description of the failure.
+- **[🔍 ROOT CAUSE]**: Detailed technical explanation of why it happened.
+- **[🛡️ PREVENTATIVE ACTION]**: What specific rule was added to which skill?
+- **[✅ VERIFICATION]**: How will we know this is fixed? (e.g., a new test case).
 
-### 4. Implementation
-1.  **Draft**: Create the specific markdown update.
-2.  **Verify**: Ensure it doesn't conflict with existing rules.
-3.  **Apply**: Use `replace_file_content` to update the `SKILL.md`.
+## 🛡️ Non-Negotiables
+- **No Blame**: Focus on the **process**, not the user or the agent's "mistake".
+- **Absolute Paths**: When updating skills, always refer to the full path of the skill file.
+- **Verification**: After updating a skill, read it back to ensure the change was correctly applied.
 
-## Example Scenario
-
-**Incident**: User faced `RuntimeError: dataset.yaml not found` when training YOLO.
-**Analysis**: The `using-ultralytics` skill mentions datasets but doesn't force a path check.
-**Action**:
-1.  Open `my-agent-skills/skills/engineer/using-ultralytics/SKILL.md`.
-2.  Add a check to "Pre-Flight Checks":
-    > "Verify `data` YAML path exists and is absolute before passing to `model.train()`."
-3.  Notify User: "I've updated my internal protocols to always verify YAML paths before training in the future."
-
-## Trigger Words
-- "Conduct a post-mortem"
-- "Update your learnings"
-- "Never let this happen again"
+## 🧰 Tools
+- `read_file`: To analyze the existing skill definitions.
+- `write_file` / `replace`: To implement the evolutionary updates.
+- `run_shell_command`: To gather logs and system state.

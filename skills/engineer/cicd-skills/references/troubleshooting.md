@@ -1,10 +1,12 @@
-# Troubleshooting & Best Practices
+# CI/CD Troubleshooting Practical Reference
 
-## Expert Recommendations 🛡️
+Use this file for fast diagnosis of deployment and pipeline failures.
 
-### 1. Security: SSH Key Scanning
-**Problem**: Using `StrictHostKeyChecking=no` allows Man-in-the-Middle attacks.
-**Fix**: Use `ssh-keyscan` to populate known hosts securely.
+## 1. Security and Connectivity
+
+### 1.1 SSH host verification
+Problem: Using `StrictHostKeyChecking=no` weakens SSH trust checks.
+Fix: Preload host keys with `ssh-keyscan`.
 ```yaml
 before_script:
   - mkdir -p ~/.ssh
@@ -12,35 +14,45 @@ before_script:
   - chmod 644 ~/.ssh/known_hosts
 ```
 
-### 2. Efficiency: Git Fetch vs Clone
-**Problem**: `git clone` fails if the directory exists.
-**Fix**: Use fetch & reset.
+### 1.2 Repo sync in deployment host
+Problem: `git clone` fails when target directory already exists.
+Fix: Use fetch + fast-forward + detached checkout.
 ```bash
 if [ ! -d "$PROJECT_DIR" ]; then
   git clone "$REPO_URL" "$PROJECT_DIR"
 else
   cd "$PROJECT_DIR"
-  git fetch --all
-  git reset --hard origin/$CI_COMMIT_BRANCH
+  git fetch --all --prune
+  git checkout "$CI_COMMIT_BRANCH" || git checkout -b "$CI_COMMIT_BRANCH" "origin/$CI_COMMIT_BRANCH"
+  git merge --ff-only "origin/$CI_COMMIT_BRANCH"
+  git checkout --detach "$CI_COMMIT_SHA"
 fi
 ```
 
-### 3. Hardware: OOM (Out Of Memory)
-**Problem**: Deep Learning models often crash if VRAM is full.
-**Prevention**: Run this check *before* deploying.
-- **Nvidia**: `nvidia-smi` (Check Memory-Usage)
-- **AMD**: `rocm-smi`
+## 2. Runtime Stability
 
-## Common Errors
+### 2.1 GPU OOM before service start
+Problem: model container crashes due to memory exhaustion.
+Prevention:
+- NVIDIA: check `nvidia-smi`.
+- AMD: check `rocm-smi`.
+
+## 3. Common Errors
 
 ### "Permission denied (publickey)"
-- **Cause**: `SSH_PRIVATE_KEY` variable is wrong, has extra newlines, or the public key isn't in `~/.ssh/authorized_keys` on the target machine.
-- **Fix**: Re-copy the private key to GitLab Variables. uncheck "Protect" if testing on a non-protected branch.
+- Cause: invalid key value, bad newline formatting, or missing public key in target host `authorized_keys`.
+- Fix: re-import key to CI variables and verify branch protection scope.
 
 ### "docker: command not found"
-- **Cause**: The `alpine` image used in CI doesn't have docker installed.
-- **Fix**: The CI script actually uses SSH to run docker *on the remote host*, not the runner. Ensure the *remote host* has docker installed.
+- Cause: runner image has no docker binary.
+- Fix: ensure deployment script runs Docker commands on remote host where Docker is installed.
 
 ### "xhost: unable to open display"
-- **Cause**: `DISPLAY=:0` is set but no X server is running (headless server).
-- **Fix**: If you don't need GUI, remove `xhost` and `DISPLAY` vars. If you do (for visualization), ensure a monitor is plugged in or a virtual display is running.
+- Cause: `DISPLAY=:0` set on headless host without active X server.
+- Fix: remove GUI-specific commands for headless deployment, or provide virtual display.
+
+## 4. Triage Order
+1. Confirm branch/tag trigger and job rules.
+2. Confirm secrets and SSH connectivity.
+3. Confirm repository sync and target revision.
+4. Confirm runtime dependencies on target host (Docker, GPU drivers, display stack).

@@ -4,16 +4,17 @@
 
 ## 1. Skill Routing (Primary Directive)
 Before improvisation, check context and INVOKE the specific skill:
-- **New Idea/Feature** → `brainstorming` (Focus: WHAT)
-- **Implementation** → `planning` + `managing-environment` (Focus: HOW & Standards)
-- **Errors/Crash** → `auditing-code` (Root Cause First)
+- **New Idea/Feature** → `brainstorming-product-design` (Focus: WHAT)
+- **Implementation** → `planning-implementation` + `managing-environment` (Focus: HOW & Standards)
+- **Errors/Crash** → `debugging-code` (Root Cause First)
 - **Feedback/Requests** → `handling-review` **(Focus: Rigor & Ethics)**
-- **Deployment** → `cicd-skills` (Check Project Context)
+- **Deployment** → `managing-cicd-workflow` (Check Project Context)
+- **Observability/Logging/埋點/日誌/追蹤ID/個資遮罩** → `instrumenting-observability` (Pre-release hardening)
 - **Analysis/Evaluation** → `evaluating-models` (Objective Metrics)
-- **Tools (YOLO/MLflow/DVC)** → `using-*` (Enforce Resources & Best Practices)
-- **Environment/Deps** → `managing-environment` (Docker First, then Venv)
+- **Tools (YOLO/MLflow/DVC)** → `using-ultralytics` + `using-mlflow` + `using-dvc` (Enforce Resources & Best Practices)
+- **Environment/Deps/ModuleNotFoundError/缺少套件** → `managing-environment` (Docker First, then Venv)
 - **Self-Improvement** → `conducting-postmortem` (Update Skills after Incidents)
-- **Skill Audit** → `gemini-skill-reviewer` (Red Team New Skills)
+- **Agent Skill QA** → `reviewing-agent-skills` (Red Team New Skills)
 
 ## 2. Engineering Constraints (Non-Negotiables)
 - **Files**: MUST use `pathlib`. NO string path concatenation.

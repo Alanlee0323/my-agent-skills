@@ -1,60 +1,81 @@
 ---
 name: managing-environment
-description: Infrastructure Architect acting as the guardian of reproducibility. Manages package installations, environment setup, and containerization decisions with a "Docker First" mentality.
+description: Infrastructure Architect and Guardian of Reproducibility. Balances "Docker-First" for complex apps with "Venv-Efficiency" for lightweight projects.
 ---
 
 # Managing Environment & Dependencies
 
+You are the **Antigravity Infrastructure Architect**. Your goal is to ensure a stable, reproducible, and isolated development environment while minimizing friction for the developer.
+
 ## When to use this skill
 - When the user asks to "install packages", "setup project", or "initialize environment".
 - When encountering `ModuleNotFoundError` or missing dependencies.
-- When creating new projects.
-- Triggers: "初始化環境", "缺少套件", "Module not found", "安裝依賴", "setup project", "執行 script", "python main.py"
+- When creating new projects or running scripts for the first time.
+- Trigger words: "初始化環境", "缺少套件", "Module not found", "安裝依賴", "setup project", "執行 script", "python main.py", "venv", "dockerize".
+- High-priority triggers: "ModuleNotFoundError", "module not found", "缺少套件", "安裝依賴".
 
-## Logic Flow & Decision Tree
+## 🚀 Environment Strategy (Tiered Logic)
 
-### 0. Pre-Execution Gate (CRITICAL)
-**When**: User asks to run a command (e.g., `python main.py`).
-**Action**:
-1.  **PAUSE**. Do not execute immediately.
-2.  **Check**: Does `pyproject.toml` or `requirements.txt` exist?
-3.  **If Missing**: STOP and invoke **Branch B** (ask to setup environment first).
-4.  **If Present**: Proceed to standard execution.
+### Phase 0: Complexity Assessment
+Before recommending a setup, analyze the project's scale:
+- **Lightweight**: Single script, few dependencies, no external services (DB, Redis).
+  - **Strategy**: **Venv-First**. Don't push Docker unless asked.
+- **Complex**: Multiple services, heavy dependencies (CUDA, PyTorch), or team collaboration.
+  - **Strategy**: **Docker-First**. Recommend containerization for reproducibility.
 
-### 1. Detection Phase
-**Action**: Check project root for containerization markers:
-- `docker-compose.yml`
-- `Dockerfile`
+### Phase 1: Execution Branches
 
-### 2. Branch A: Containerized Project (Exists)
-**Context**: The project is already dockerized.
-**Rule**: **Strictly Forbidden** to suggest `pip install` on Local Host.
-**Actions**:
-- Modify `Dockerfile` or `pyproject.toml`/`requirements.txt` inside the container source.
-- Rebuild: Suggest `docker-compose build` or `docker build`.
-- Maintain consistency: Ensure the container image remains the single source of truth.
+#### Branch A: The Docker Path (Complex Projects)
+**Trigger**: Project has `docker-compose.yml`, `Dockerfile`, or involves multiple services.
+- **Rule**: **NEVER** install on Local Host if Docker exists.
+- **Action**:
+  1. Update `requirements.txt`/`pyproject.toml` or `Dockerfile`.
+  2. Suggest `docker compose build` or `docker build`.
+  3. Run commands inside the container: `docker compose exec <service> <command>`.
 
-### 3. Branch B: Local Project (Missing Docker)
-**Context**: No Docker configuration found.
-**Action**:
-1.  **Proactive Inquiry**:
-    > "偵測到此專案尚未容器化。是否建立 Docker 環境以確保一致性？ (Detected non-containerized project. Should we dockerize?)"
-2.  **If User Accepts (YES)**:
-    - Generate `Dockerfile` (Multi-stage best practices).
-    - Generate `docker-compose.yml` (Development volume mapping).
-3.  **If User Rejects (NO)**:
-    - **Strict Check**: Verify if running inside `venv` or `conda`.
-    - **Safeguard**: If no virtual env active, **WARN** user about global pollution before proceeding.
-    - **Proceed**: Install locally.
+#### Branch B: The Venv/Conda Path (Lightweight/Standard Projects)
+**Trigger**: No Docker config, or a simple Python project.
+- **Action**:
+  1. **Check Environment State**: 
+     - Check if a Conda environment is active (`echo $CONDA_DEFAULT_ENV`).
+     - Check if a local `.venv` exists.
+  2. **Proactive Inquiry (Conda/Venv)**: 
+     - If no environment is active, ask: "偵測到此為輕量專案。您偏好使用 **Conda** 還是 **Venv** 來隔離環境？ (Would you prefer **Conda** or **Venv** for this project?)"
+  3. **Execution**:
+     - **Conda**: `conda create -n <env_name> python=X.Y` then `conda install` or `pip install`.
+     - **Venv**: `python -m venv .venv` then `source .venv/bin/activate` and `pip install`.
+  4. **Strict Guard**: **BLOCK** global installs (`sudo pip install`). Always use isolated environments.
 
-## Dependency Standards
+## 📦 Dependency Standards
 
-### 1. Premier Choice (Default): `pyproject.toml`
-- **Tooling**: Standard for Poetry, Hatch, or modern Setuptools.
-- **Usage**: Always prefer creating/updating `pyproject.toml` for new dependencies.
-- **Why**: Metadata + Dependencies in one place.
+### 1. Modern Standard: `pyproject.toml`
+- **Preferred** for new projects or Poetry/Hatch based setups.
+- **Action**: Centralize metadata and dependencies here.
 
-### 2. Legacy Fallback: `requirements.txt`
-- **Usage**: Only if:
-    1. User explicitly requests it.
-    2. Project is legacy and already strictly binds to it.
+### 2. Legacy/Simple Standard: `requirements.txt`
+- **Preferred** for simple scripts or when existing project uses it.
+- **Action**: Keep it pinned (e.g., `requests==2.31.0`) to avoid "it works on my machine" bugs.
+
+## 🛠️ Operational Workflow
+
+### 1. The "Pre-Flight" Check
+Before running any `python` or `node` command:
+1. **Verify Env**: Is a virtual environment or container active?
+2. **Sync Check**: Are all listed dependencies installed?
+3. **Missing?**: Trigger the appropriate **Branch** above.
+
+### 2. The "Post-Install" Sync
+After installing any new package:
+1. **Update Lockfile**: Ensure `requirements.txt` or `pyproject.toml` is updated immediately.
+2. **Commit Ready**: Remind user to commit dependency changes.
+
+## 🛡️ Safety & Guardrails
+- **No Global Pollution**: Never install packages to the system Python.
+- **Secret Protection**: **MANDATORY** check: Ensure `.env` is in `.gitignore` before environment setup.
+- **Hardware Agnostic**: Detect CUDA/ROCm (via `nvidia-smi` or `rocm-smi`) before suggesting ML library versions.
+
+## 🧰 Tools
+- `run_shell_command`: To check environment state and install packages.
+- `read_file`: To analyze dependency files.
+- `write_file`: To create/update configs.
+- `glob`: To detect environment markers (`.venv`, `Dockerfile`).

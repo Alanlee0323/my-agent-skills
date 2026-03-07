@@ -1,39 +1,18 @@
-# Raw-Ultralytics Documentation Index
+# Ultralytics Reference Index
 
-## Categories
+## Files
+- `tasks.md`: Select the right CV task (Detect/Segment/Classify/Pose/OBB).
+- `modes.md`: Operational modes (Train/Val/Predict/Export/Track/Benchmark).
+- `models.md`: Model family selection and deployment tradeoffs.
+- `datasets.md`: Dataset YAML, directory contracts, and split hygiene.
+- `detect.md`: Detection-first quick workflow and command patterns.
+- `guides.md`: Curated advanced guides (Conda, hyperparameter tuning, deployment topics).
 
-### Ar
-**File:** `ar.md`
-**Pages:** 26
-
-### Datasets
-**File:** `datasets.md`
-**Pages:** 54
-
-### Detect
-**File:** `detect.md`
-**Pages:** 2
-
-### Guides
-**File:** `guides.md`
-**Pages:** 13
-
-### It
-**File:** `it.md`
-**Pages:** 39
-
-### Models
-**File:** `models.md`
-**Pages:** 47
-
-### Modes
-**File:** `modes.md`
-**Pages:** 1
-
-### Other
-**File:** `other.md`
-**Pages:** 13
-
-### Tasks
-**File:** `tasks.md`
-**Pages:** 4
+## Official Sources
+- Docs home: https://docs.ultralytics.com/
+- Tasks: https://docs.ultralytics.com/tasks/
+- Modes: https://docs.ultralytics.com/modes/
+- Models: https://docs.ultralytics.com/models/
+- Datasets: https://docs.ultralytics.com/datasets/
+- Guides: https://docs.ultralytics.com/guides/
+- Detect task: https://docs.ultralytics.com/tasks/detect/

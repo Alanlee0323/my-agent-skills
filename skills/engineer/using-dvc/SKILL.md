@@ -34,11 +34,10 @@ git commit -m "Add data.xml to DVC"
 
 **Pattern 3: Define Pipeline Stage**
 ```bash
-dvc run -n prepare \
-          -p prepare.seed,prepare.split \
-          -d src/prepare.py -d data/data.xml \
-          -o data/prepared \
-          python src/prepare.py data/data.xml
+dvc stage add -n prepare \
+  -d src/prepare.py -d data/data.xml \
+  -o data/prepared \
+  python src/prepare.py data/data.xml
 ```
 
 **Pattern 4: Reproduce Pipeline**
@@ -85,10 +84,7 @@ stages:
 
 This skill includes documentation in `references/`:
 
-- **other.md** - General DVC documentation notes (Contribution guide).
-
-> [!NOTE]
-> The reference documentation is currently limited. Rely on `dvc --help` or the official website for complex inquiries not covered by the Quick Reference.
+- **other.md** - Practical workflow for data/model versioning, pipeline orchestration, experiments, and troubleshooting.
 
 ## usage
 

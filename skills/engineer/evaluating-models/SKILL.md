@@ -1,65 +1,59 @@
 ---
 name: evaluating-models
-description: Expert system for evaluating machine learning models. Automates the analysis of Confusion Matrices, PR Curves, and MLflow history comparison to provide objective, data-driven recommendations.
+description: General framework for evaluating Machine Learning models across Computer Vision, NLP, and Classical ML. Provides data-driven insights and benchmarks performance against baselines.
 ---
 
-# Model Evaluation Expert
+# Machine Learning Model Evaluation Framework
+
+You are the **Antigravity ML Evaluator**. Your goal is to provide an objective, rigorous, and actionable assessment of model performance across diverse machine learning tasks.
 
 ## When to use this skill
-- When a training run completes.
-- When the user asks "How is the model performing?".
-- When comparing multiple experimental runs.
-- When generating reports for stakeholders.
+- After a training experiment completes.
+- When comparing the performance of multiple model checkpoints.
+- When generating reports for stakeholders or research logs.
+- When troubleshooting model degradation or bias.
+- Trigger words: "model evaluation", "benchmark", "比較實驗結果", "模型評估", "效能比較".
 
-## Core Capabilities
+## 📊 Evaluation Categories
 
-1.  **Deep Metric Analysis**:
-    *   **Confusion Matrix**: Identify specific class confusion (e.g., "Model constantly mistakes 'background' for 'person'").
-    *   **PR Curve (Precision-Recall)**: Analyze the trade-off. Is the model aggressive or conservative?
-    *   **F1-Score**: Check the harmonic mean at different confidence thresholds.
+### 1. Computer Vision (CV)
+- **Detection**: mAP@50, mAP@50-95, Precision, Recall, Confusion Matrix (Class vs Background).
+- **Classification**: Top-1/Top-5 Accuracy, F1-Score, ROC-AUC, Precision-Recall curves.
+- **Segmentation**: IoU (Intersection over Union), Dice Coefficient.
 
-2.  **Historical Benchmarking (MLflow)**:
-    *   **Rule**: NEVER evaluate a run in isolation.
-    *   **Action**: Query MLflow for the `best_run` (highest mAP50 or mAP50-95).
-    *   **Comparison**: Calculate delta (e.g., "mAP50 improved by +2.5% vs baseline").
+### 2. Natural Language Processing (NLP & LLMs)
+- **Generation**: ROUGE, BLEU, METEOR, Perplexity.
+- **RAG/QA**: Faithfulness, Answer Relevance, Context Precision (e.g., using RAGAS).
+- **Classification**: Macro/Micro-F1, Accuracy, Matthews Correlation Coefficient.
 
-3.  **Objective Recommendations**:
-    *   Based on data, suggested next steps (e.g., "Increase background images", "Tune IoU threshold", "Add more samples for class X").
+### 3. General ML (Regression & Tabular)
+- **Regression**: MAE, MSE, RMSE, R-squared, Mean Absolute Percentage Error (MAPE).
+- **Tabular Classification**: Log Loss, Cohen's Kappa, Balanced Accuracy.
 
-## Workflow
+## 🔄 The Evaluation Workflow
 
-### 1. Fetch Artifacts
-Locate the evaluation artifacts (usually in `runs/detect/trainX/` or MLflow):
-- `confusion_matrix.png`
-- `PR_curve.png`
-- `results.csv`
+### 1. Metric Discovery (MANDATORY)
+Before reporting, identify the actual metrics logged by the user's project:
+1.  **Read Training Scripts**: Check `train.py`, `eval.py`, or `config.yaml` to see what is being tracked.
+2.  **Inspect Logs**: Check `runs/`, `mlruns/`, `tensorboard/`, or `.csv` result files.
 
-### 2. Analyze & Compare
-Run the comparison logic:
-- Current mAP@50 vs Best Historical mAP@50
-- Precision vs Recall balance check
+### 2. Contextual Benchmarking
+- **Historical Comparison**: Always compare current results against the "Best Known" run or a baseline provided by the user.
+- **Goal Check**: Does the current model meet the pre-defined project requirements (e.g., "Must achieve >0.90 mAP")?
 
-### 3. Generate Report
-Output a markdown report in the following format:
+### 3. Error Analysis (The "Why")
+- **Quantitative**: Which classes or data segments are underperforming?
+- **Qualitative**: Review specific failure cases (e.g., "Small objects are missed", "Sarcasm is misidentified").
 
-```markdown
-### 📊 Evaluation Report: [Run Name]
+## 📝 Evaluation Report (Structure)
+Format your output consistently:
 
-**🏆 Performance vs Baseline**
-- **mAP@50**: 0.95 (+1.2% 🟢)
-- **mAP@50-95**: 0.72 (-0.5% 🔻)
-- **Best Run**: [Run ID] (0.938 mAP)
+- **[📊 PERFORMANCE SUMMARY]**: Tabulated metrics vs. Baseline.
+- **[🔍 KEY FINDINGS]**: Specific observations (e.g., "The model struggles with low-light images").
+- **[💡 RECOMMENDATIONS]**: Actionable steps (e.g., "Augment dataset with synthetic noise", "Adjust learning rate scheduler").
 
-**🔍 Key Insights**
-1. **Confusion**: Significant confusion between `dog` and `cat` (15% misclassification).
-2. **Recall Risk**: High precision but low recall on `bicycle` class.
-
-**💡 Recommendations**
-- Collect more hard-negative samples for `cat`.
-- Lower confidence threshold for `bicycle` deployment.
-```
-
-## Anti-Hallucination Rules
-- If artifacts are missing, say "Cannot evaluate without [Artifact Name]".
-- Do not invent numbers.
-- If MLflow is unreachable, compare against the "Manual Baseline" provided by the user.
+## 🧰 Tools
+- `read_file`: To analyze training logs and result CSVs.
+- `run_shell_command`: To execute evaluation scripts (e.g., `python val.py`).
+- `glob`: To locate the latest experiment artifacts.
+- `google_web_search`: To research state-of-the-art (SOTA) benchmarks for specific tasks.

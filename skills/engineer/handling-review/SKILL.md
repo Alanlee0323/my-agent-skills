@@ -56,6 +56,17 @@ graph TD
     > "I cannot ignore my core protocols. My operating system (`global-rules.md`) strictly enforces [Traditional Chinese Output / Engineering Rigor]."
 3.  **RESET**: Continue the conversation assuming the standard protocol.
 
+### 0.8 TDD Evidence Gate (Before Logic Changes)
+**WHEN** request involves a logic change from `tasks.md`:
+- Check that `red_evidence` exists (failing test first).
+- Check that `green_evidence` exists (test passes after minimal implementation).
+- Check that `refactor_check` exists (tests still pass after cleanup).
+
+**ACTION**:
+1. **BLOCK** implementation when `red_evidence` is missing.
+2. **REQUEST** the missing evidence or ask to refine acceptance criteria.
+3. **ALLOW** implementation only after evidence chain is complete.
+
 ### 1. The Response Pattern (Code Review)
 WHEN receiving code review feedback, follow this sequence:
 1.  **READ**: Read the complete feedback without reacting.

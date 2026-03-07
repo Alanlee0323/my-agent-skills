@@ -22,7 +22,7 @@ This skill should be triggered when:
 
 **Pattern 1: Install MLflow**
 ```bash
-pip install mlflow[auth]
+pip install mlflow
 ```
 
 **Pattern 2: Command Line Help**
@@ -30,30 +30,18 @@ pip install mlflow[auth]
 mlflow --help
 ```
 
-**Pattern 3: Install Extras**
-```bash
-# Time series
-pip install mlflow[sktime]
-pip install mlflavors
-# Visualization
-pip install mlflow-vizmod
-# Cloud
-pip install bigmlflow
-pip install mlflow[aliyun-oss]
-```
-
-**Pattern 4: Start UI**
+**Pattern 3: Start UI**
 ```bash
 mlflow ui
 ```
 
-**Pattern 5: referencing models**
+**Pattern 4: referencing models**
 ```
 models:/<model_name>/<version>
 models:/<model_name>/Production
 ```
 
-**Pattern 6: Log Model (PyTorch example)**
+**Pattern 5: Log Model (PyTorch example)**
 ```python
 mlflow.pytorch.log_model(model, "model")
 ```
@@ -72,11 +60,11 @@ export MLFLOW_S3_EXPECTED_BUCKET_OWNER=123456789012
 
 ## Reference Files
 
-This skill includes comprehensive documentation in `references/`:
+This skill includes practical documentation in `references/`:
 
-- **ml.md** - Complete MLflow documentation covering all major components.
+- **ml.md** - Focused guide for tracking, server setup, artifact store, and model registry.
 
-Use the `view_file` tool to read specific sections of these files when the user needs detailed explanations.
+Read specific sections of these files when the user needs detailed explanations.
 
 ## usage
 

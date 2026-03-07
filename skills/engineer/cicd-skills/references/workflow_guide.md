@@ -1,69 +1,83 @@
-# CI/CD Workflow Guide — Trunk-Based with Branch for Release
+# CI/CD Workflow Practical Reference
 
-## Overview
-This guide describes a generic trunk-based development workflow with release branches. All feature work merges into `main` (the trunk); releases are cut as `release/*` branches for stabilisation.
+Use this file as the default workflow reference for trunk-based delivery with release branches.
 
-## Environments (Template)
+## 1. Environment Contract
 
-| Environment | Branch Pattern | Trigger | Notes |
-| :--- | :--- | :--- | :--- |
-| **dev/staging** | `main` or `release/*` | Auto on push | Runs lint + test + build |
-| **production** | `release/*` tag | Manual or tag-based | Requires approval |
+| Environment | Branch or Trigger | Deploy Type | Purpose |
+|---|---|---|---|
+| Staging | `main` | Auto | Integration and QA validation |
+| Release Prep | `release/x.y` | N/A | Stabilization and critical fixes only |
+| Production | `v*.*.*` tag | Manual or Auto | Customer-facing immutable release |
 
-> **Note**: Actual host IPs, job names, and hardware profiles are defined in the project-specific override (`./skills/cicd-skills/SKILL.md`). Do NOT hardcode here.
+## 2. Standard Delivery Flow
 
-## Step-by-Step Workflows
+### 2.1 Feature flow
+1. Sync trunk:
+```bash
+git checkout main
+git pull origin main
+```
+2. Create short-lived feature branch:
+```bash
+git checkout -b feat/<task-id>-<description>
+```
+3. Commit atomic changes and push for CI feedback.
+4. Open PR/MR into `main` and use squash merge to keep history linear.
 
-### 1. Daily Development (Feature Flow)
-1.  **Start**: Create a short-lived branch from `main`.
-    ```bash
-    git checkout main
-    git pull origin main
-    git checkout -b feat/<description>
-    ```
-2.  **Work**: Code, test locally. Keep branch alive < 3 days.
-3.  **Push**: Push to remote.
-    ```bash
-    git push origin feat/<description>
-    ```
-4.  **Open MR/PR**: Target `main`. CI runs automatically on the MR pipeline.
-5.  **Review**: At least 1 approval required.
-6.  **Merge**: Squash-merge or rebase-merge to keep `main` linear.
+### 2.2 Release flow
+1. Cut release branch from trunk:
+```bash
+git checkout -b release/1.2 main
+git push origin release/1.2
+```
+2. Allow only critical fixes on `release/*`.
+3. Run final QA on release candidate build.
 
-### 2. Release Preparation (Release Flow)
-1.  **Cut branch**: When `main` is feature-complete for a version:
-    ```bash
-    git checkout -b release/<version> main
-    git push origin release/<version>
-    ```
-2.  **Stabilise**: Only bug fixes via MR to `release/<version>`. No new features.
-3.  **CI deploys** `release/*` to staging automatically.
-4.  **QA**: Validate on staging environment.
-5.  **Tag**:
-    ```bash
-    git tag v<version>
-    git push origin v<version>
-    ```
-6.  **Production deploy**: Triggered by tag (auto or manual per project policy).
-7.  **Back-merge**: Merge `release/<version>` back to `main` to capture fixes.
+### 2.3 Production flow
+1. Tag from release branch:
+```bash
+git checkout release/1.2
+git tag -a v1.2.0 -m "Release version 1.2.0"
+git push origin v1.2.0
+```
+2. Deploy through tag-triggered production job.
+3. Sync release fixes back to `main`.
 
-### 3. Hotfix (Emergency Fix)
-1.  **Start**: Branch from the affected `release/*` (or `main` if no active release).
-    ```bash
-    git checkout -b hotfix/<issue> release/<version>
-    ```
-2.  **Fix**: Apply minimal change.
-3.  **MR to release branch**: Merge, tag patch version `v<version>.1`.
-4.  **Cherry-pick to main**: Ensure the fix propagates to trunk.
+### 2.4 Hotfix flow
+1. Branch from affected tag or release branch:
+```bash
+git checkout -b hotfix/v1.2.1 v1.2.0
+```
+2. Apply minimal safe fix.
+3. Tag and deploy patch release.
+4. Merge or cherry-pick back to `main`.
 
-### 4. Rollback (Emergency Restore)
-**If the new version crashes on production:**
+## 3. Rollback Policy
 
-#### Method A: Pipeline Retry (Fastest)
-1.  Find the **previous successful pipeline** in CI/CD dashboard.
-2.  Click **Retry** on the production deploy job.
+Default policy: fix forward with `git revert`, or redeploy last known-good artifact.
 
-#### Method B: Git Revert (Cleanest)
-1.  `git revert <bad-commit>` on the release branch.
-2.  Push and let pipeline redeploy.
-3.  Always rollback first, investigate second.
+### 3.1 Revert-based rollback
+```bash
+git revert <commit_id>
+git push origin <target-branch>
+```
+
+### 3.2 Pipeline retry rollback
+- GitLab: retry last successful production deploy job.
+- GitHub: rerun last known-good production workflow run.
+
+## 4. Guardrails
+- Do not deploy production directly from feature branches.
+- Keep release branches short-lived and focused on stabilization.
+- Treat production tags as immutable release contracts.
+- Ensure every hotfix is propagated back to trunk.
+
+## 5. Soft Gate (Observability)
+- `observability_report.md` is a manual sign-off artifact for release readiness.
+- If any P0 flow is marked `needs_manual_signoff`, deployment is not auto-blocked by CI in this mode.
+- Release owner must explicitly acknowledge residual risk before production tagging.
+
+## 6. Related References
+- `troubleshooting.md`: CI/CD failure patterns and mitigations.
+- `gitlab-ci.yml`: Template pipeline for this delivery model.
