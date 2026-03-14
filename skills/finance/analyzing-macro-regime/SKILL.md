@@ -77,4 +77,8 @@ description: Interprets macroeconomic regime shifts and links them to sector and
 ## Resources
 
 - Official macro data sources (for example: FRED, BEA, BLS)
+- `scanning-macro-news`（上游技能：提供最新宏觀事件掃描，確保體制判斷基於即時資訊）
+- `monitoring-geopolitical-risk`（協同技能：地緣事件的傳導分析可作為體制判斷輸入）
+- `collecting-market-data`（協同技能：提供即時市場數據佐證體制方向）
+- `stress-testing-portfolio`（下游技能：將體制判斷轉化為組合壓力測試情境）
 

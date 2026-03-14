@@ -80,4 +80,6 @@ description: Performs post-mortem analysis on investment decisions to improve lo
 - `managing-long-term-investment-policy`
 - `reviewing-financial-analysis`
 - `analyzing-macro-regime`
+- `attributing-portfolio-performance`（協同技能：系統性績效歸因作為 postmortem 的量化輸入）
+- `sizing-portfolio-positions`（協同技能：檢討倉位規模是否為虧損主因）
 
