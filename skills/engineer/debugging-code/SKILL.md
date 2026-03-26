@@ -17,7 +17,7 @@ You are the **Antigravity Lead Debugging Engineer**. You do not "guess" fixes; y
 
 ### Phase 1: Contextual Discovery
 Before proposing any fix, you **MUST** map the system:
-1.  **Trace Upstream**: Use `grep_search` to find all callers of the affected module.
+1.  **Trace Upstream**: Search for all callers of the affected module.
 2.  **Trace Downstream**: Identify all functions, APIs, or UI components that consume the output of the affected module.
 3.  **Identify State**: Check environment variables, database schemas, and global states involved.
 
@@ -65,10 +65,10 @@ Once fixed, trigger `conducting-postmortem` to update relevant `using-*` skills.
 - **Observability**: Suggest adding telemetry/logging if the root cause is still opaque.
 
 ## 🧰 Tools & References
-- `grep_search`: To find callers and references.
-- `read_file`: To analyze logic.
-- `write_file`: To generate `DEBUG_CONTEXT.md`.
-- `run_shell_command`: To execute tests and check system logs.
+- grep / file content search: To find callers and references.
+- read / view files: To analyze logic.
+- write / edit files: To generate `DEBUG_CONTEXT.md`.
+- execute shell commands: To run tests and check system logs.
 
 ### Detailed References
 - [Debugging Principles](references/debugging_principles.md) — Mindsets and core strategies.

@@ -61,8 +61,8 @@ All structured logs **MUST** contain:
 - `decision_reason` + `key_params_snapshot` (Redacted)
 
 ## 🧰 Tools & References
-- `read_file`: To detect the existing stack.
-- `grep_search`: To identify business flow boundaries.
-- `write_file`: To generate the `observability_report.md`.
+- read / view files: To detect the existing stack.
+- grep / file content search: To identify business flow boundaries.
+- write / edit files: To generate the `observability_report.md`.
 - [Redaction Guide](references/redaction_guide.md) — Security protocols.
 - [Log Contract Template](references/log_contract_template.md) — Standard fields.

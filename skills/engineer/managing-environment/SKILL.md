@@ -75,7 +75,7 @@ After installing any new package:
 - **Hardware Agnostic**: Detect CUDA/ROCm (via `nvidia-smi` or `rocm-smi`) before suggesting ML library versions.
 
 ## 🧰 Tools
-- `run_shell_command`: To check environment state and install packages.
-- `read_file`: To analyze dependency files.
-- `write_file`: To create/update configs.
-- `glob`: To detect environment markers (`.venv`, `Dockerfile`).
+- execute shell commands: To check environment state and install packages.
+- read / view files: To analyze dependency files.
+- write / edit files: To create/update configs.
+- glob / file finder: To detect environment markers (`.venv`, `Dockerfile`).

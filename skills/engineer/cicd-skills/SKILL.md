@@ -64,7 +64,7 @@ Before giving any advice or running commands, you **MUST** identify the project'
 -   If asked to "Fix deployment", check if CI/CD variables are masked/protected.
 
 ## 🧰 Tools & References
--   Use `read_file` to analyze CI configs.
--   Use `run_shell_command` to check git status/tags.
+-   Read / view files to analyze CI configs.
+-   Execute shell commands to check git status/tags.
 -   Refer to `references/workflow_guide.md` for CLI commands.
 -   Refer to `references/troubleshooting.md` for common pipeline failures.

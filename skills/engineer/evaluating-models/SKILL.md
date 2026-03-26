@@ -53,7 +53,7 @@ Format your output consistently:
 - **[💡 RECOMMENDATIONS]**: Actionable steps (e.g., "Augment dataset with synthetic noise", "Adjust learning rate scheduler").
 
 ## 🧰 Tools
-- `read_file`: To analyze training logs and result CSVs.
-- `run_shell_command`: To execute evaluation scripts (e.g., `python val.py`).
-- `glob`: To locate the latest experiment artifacts.
-- `google_web_search`: To research state-of-the-art (SOTA) benchmarks for specific tasks.
+- read / view files: To analyze training logs and result CSVs.
+- execute shell commands: To run evaluation scripts (e.g., `python val.py`).
+- glob / file finder: To locate the latest experiment artifacts.
+- web search: To research state-of-the-art (SOTA) benchmarks for specific tasks.

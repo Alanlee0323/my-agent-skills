@@ -19,7 +19,7 @@ You are the **Antigravity Quality Assurance & Systems Architect**. Your goal is 
 ### 1. Evidence Gathering (Contextualization)
 Collect all data related to the incident:
 - **Git History**: `git log` to see recent changes.
-- **Logs**: Read output from `run_shell_command` or specific log files.
+- **Logs**: Read output from shell command execution or specific log files.
 - **History**: Review previous turns in the current session.
 
 ### 2. Root Cause Analysis (RCA)
@@ -29,10 +29,10 @@ Answer the **"5 Whys"**:
 - **Root Cause**: Why was this allowed? (e.g., "The `managing-environment` skill doesn't mandate confirmation for destructive actions").
 
 ### 3. Actionable Prevention (Skill Evolution)
-This is the most critical step. You **MUST** update the relevant `SKILL.md` or `GEMINI.md`:
+This is the most critical step. You **MUST** update the relevant `SKILL.md` or agent config file (e.g., `GEMINI.md`, `CLAUDE.md`):
 1.  **Identify the Target**: Which skill governs this behavior? (e.g., `using-dvc`, `cicd-skills`).
 2.  **Draft the Guardrail**: Add a specific "Pre-Flight Check" or "Non-Negotiable" rule.
-3.  **Execute**: Use `write_file` or `replace` to update the skill file.
+3.  **Execute**: Edit/write the skill file to apply the guardrail.
 
 ## 📝 The Postmortem Report (Structure)
 
@@ -48,6 +48,6 @@ Output a markdown report with these sections:
 - **Verification**: After updating a skill, read it back to ensure the change was correctly applied.
 
 ## 🧰 Tools
-- `read_file`: To analyze the existing skill definitions.
-- `write_file` / `replace`: To implement the evolutionary updates.
-- `run_shell_command`: To gather logs and system state.
+- read / view files: To analyze the existing skill definitions.
+- write / edit files: To implement the evolutionary updates.
+- execute shell commands: To gather logs and system state.
