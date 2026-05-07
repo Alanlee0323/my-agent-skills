@@ -1,6 +1,7 @@
 name: engineer
 description: Engineering workflow bundle for coding and implementation agents
 skills:
+  - using-minimax
   - brainstorming-product-design
   - planning-implementation
   - sdd-driven-development

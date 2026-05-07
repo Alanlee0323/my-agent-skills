@@ -1,6 +1,7 @@
 name: finance
 description: Financial statement analysis, macro regime interpretation, valuation, and long-term investing discipline bundle
 skills:
+  - using-minimax
   - planning-financial-analysis
   - parsing-sec-filings
   - normalizing-financial-statements
