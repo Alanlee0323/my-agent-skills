@@ -128,7 +128,7 @@ def minimax_draft(task: str) -> dict:
         f"{MINIMAX_BASE_URL}/text/chatcompletion_v2",
         headers={"Authorization": f"Bearer {MINIMAX_API_KEY}"},
         json={
-            "model": "MiniMax-Text-01",
+            "model": "MiniMax-M2.7",
             "messages": [
                 {"role": "system", "content": DRAFT_SYSTEM},
                 {"role": "user", "content": task},
@@ -173,9 +173,12 @@ def copilot_review(draft: str, review_points: list[str]) -> str:
 
 | 模型 | 建議場景 |
 |---|---|
-| `MiniMax-Text-01` | 程式碼初稿、長文分析、結構化任務（預設） |
-| `abab6.5s-chat` | 速度優先的輕量任務（摘要、翻譯） |
-| `MiniMax-VL-01` | 含圖片 / 截圖的多模態任務 |
+| `MiniMax-M2.7` | 程式碼初稿、長文分析、複雜結構化任務（預設） |
+| `MiniMax-M2.7-highspeed` | 速度優先的輕量任務（摘要、翻譯、格式轉換） |
+| `MiniMax-M2.5` | 中等複雜度任務，平衡速度與品質 |
+| `MiniMax-M2.5-highspeed` | 快速摘要、簡單 Q&A |
+
+> Token Plan 支援 M 系列（M2.7 / M2.5 / M2.1）；舊版 Text-01 / abab 系列不適用。
 
 ---
 
