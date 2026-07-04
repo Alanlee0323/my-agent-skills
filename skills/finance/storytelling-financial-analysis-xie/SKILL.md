@@ -82,4 +82,4 @@ description: Translates evidence-backed financial research into high-energy Trad
 
 - `resources/style_profile.yaml`
 - `examples/output_template.md`
-- `tone-example/Xie-mong-gung/*.md`
+- `tone-example/xie/*.md`

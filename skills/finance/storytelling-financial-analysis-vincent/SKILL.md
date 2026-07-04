@@ -79,4 +79,4 @@ description: Translates evidence-backed financial research into structured Tradi
 
 - `resources/style_profile.yaml`
 - `examples/output_template.md`
-- `tone-example/Vincent-Cheng-Wen-Yu/*.md`
+- `tone-example/vincent/*.md`
