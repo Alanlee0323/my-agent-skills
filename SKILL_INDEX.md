@@ -3,16 +3,15 @@
 > **此檔案由 `tools/generate_skill_index.py` 自動生成**，
 > 請勿手動編輯；修改 skill frontmatter 後重新執行腳本（CI 會驗證同步）。
 
-共 **55** 個 skill。
+共 **54** 個 skill。
 
-## Shared（跨領域共用）（6）
+## Shared（跨領域共用）（5）
 
 | Skill | Version | Description |
 |---|---|---|
 | [`creating-skills-from-knowledge-folder`](skills/shared/creating-skills-from-knowledge-folder/SKILL.md) | — | Creates new agent skills from a user-specified knowledge folder. Use when the user asks to convert notes, docs, templates, or domain references into reusable SKILL.md packages. |
 | [`initializing-agent-context`](skills/shared/initializing-agent-context/SKILL.md) | 1.0.0 | Creates and maintains agent onboarding files (AGENTS.md, CLAUDE.md, GEMINI.md, copilot-instructions) for a repository — what belongs in them, what must stay out, and how to veri... |
 | [`researching-deeply`](skills/shared/researching-deeply/SKILL.md) | 1.0.0 | Systematic deep-investigation methodology for auditing codebases, evaluating systems, and researching complex questions. Enforces breadth-first mapping, claim-evidence disciplin... |
-| [`using-minimax`](skills/shared/using-minimax/SKILL.md) | 2.0.0 | 以 Minimax 作為主力執行者處理絕大多數任務（草稿、實作、分析初版），Copilot / Codex 僅擔任 Review Gate——審查 Minimax 輸出、標記偏差、執行最終糾錯——以最小高階 token 消耗確保品質。 |
 | [`visualizing-data`](skills/shared/visualizing-data/SKILL.md) | 1.0.0 | Design methodology for charts, dashboards, and data visualizations in any medium or library — form selection by data relationship, a disciplined color system, decluttering rules... |
 | [`writing-technical-docs`](skills/shared/writing-technical-docs/SKILL.md) | — | Use this skill when creating, rewriting, structuring, or reviewing technical documentation in Chinese. Suitable for 技術文件, 文件撰寫, 教學文件, 操作指南, 架構說明, API 文件, README 重構, and troubles... |
 
@@ -21,7 +20,7 @@
 | Skill | Version | Description |
 |---|---|---|
 | [`creating-agent-skills`](skills/meta/creating-agent-skills/SKILL.md) | — | Expert system for generating Agent Skills compatible with any LLM agent (Copilot, Gemini, Codex, Claude, etc.). Enforces folder structure, YAML standards, and best practices. |
-| [`maintaining-skill-library`](skills/meta/maintaining-skill-library/SKILL.md) | 1.0.1 | Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log ... |
+| [`maintaining-skill-library`](skills/meta/maintaining-skill-library/SKILL.md) | 1.0.2 | Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log ... |
 | [`reviewing-agent-skills`](skills/meta/reviewing-agent-skills/SKILL.md) | — | Acts as a QA Auditor and Red Team for new Agent Skills. Verifies structure, safety guardrails, and compliance with global-rules. |
 
 ## Engineer（工程）（17）

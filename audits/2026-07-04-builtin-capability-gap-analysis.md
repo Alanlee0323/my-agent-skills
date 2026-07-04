@@ -1,5 +1,10 @@
 # Built-in Capability Gap Analysis — 2026-07-04
 
+> **增補（2026-07-05）**：`using-minimax` 已因使用者停用 Minimax 而整個移除
+> （skill、三個 bundle、global-rules §0 Model Routing 一併撤除）。
+> 下文排除表中「claude-api：模型路由已由 using-minimax 承擔」的理由已失效；
+> 若未來需要模型路由層，重新評估時不受此歷史決策約束。
+
 - 目的：盤點 Claude Code 內建能力 vs 本庫差集，將可移植的方法論納入庫中
 - 執行者：Claude Fable 5（最終 session）；方法：`researching-deeply` 差集比對
 - 結果：**納入 5 個新 skill（庫規模 50 → 55）**，排除 9 項並記錄理由

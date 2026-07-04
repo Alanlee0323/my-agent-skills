@@ -1,8 +1,6 @@
 name: finance
 description: Financial statement analysis, macro regime interpretation, valuation, portfolio discipline, and evidence-first investing bundle
 skills:
-  # model routing
-  - using-minimax
   # planning & data foundation
   - planning-financial-analysis
   - collecting-market-data

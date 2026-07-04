@@ -1,19 +1,6 @@
 # Antigravity Operating System
 **Root Path**: `./my-agent-skills` (project-local Codex setup)
 
-
-## 0. Model Routing (Pre-Skill Directive)
-
-**預設所有任務先走 `using-minimax` Draft-Review 架構：**
-
-1. **Minimax 主力執行**：將任務完整交給 Minimax 產出草稿/實作。
-2. **Copilot / Codex 擔任 Review Gate**：審查輸出、標記風險、定點糾錯。
-3. **Copilot / Codex 全力介入**（僅限）：Minimax confidence = low、不可逆操作、安全漏洞。
-
-> Token 節省目標：Minimax 承擔 ~85% token 消耗；Copilot/Codex ≤ 15%。
-
----
-
 ## 1. Skill Routing (Primary Directive)
 Before improvisation, check context and INVOKE the specific skill:
 - **New Idea/Feature** → `brainstorming-product-design` (Focus: WHAT)

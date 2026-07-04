@@ -1,7 +1,7 @@
 ---
 name: maintaining-skill-library
 description: Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log convention, and the periodic drift audit. Use when adding, renaming, moving, or retiring a skill, when updating bundles or routing, or when the user asks 維護, 盤點, 一致性檢查, or library health.
-version: 1.0.1
+version: 1.0.2
 ---
 
 # Maintaining the Skill Library
@@ -90,7 +90,8 @@ Use `researching-deeply` methodology against the library itself:
 2. **Negative-space sweep**: count skills vs `SKILL_AUDIT.md` files; list skills whose
    referenced resources are placeholders still marked `TODO`.
 3. **Staleness sweep**: skills referencing versioned externals (models, APIs, tool
-   versions) — verify identifiers are still current (e.g., model names in `using-minimax`).
+   versions) — verify identifiers are still current (e.g., default model ids inside
+   `using-*` tool-wrapper skills).
 4. **Bundle-fit review**: re-run the `FINANCE_BUNDLE_AUDIT.md`-style review for any bundle
    whose composition changed since its last audit; date the audit header.
 5. Write findings to a dated audit file in `audits/` (format:
@@ -121,6 +122,9 @@ should enforce), not as active enforcement.
 
 ## Evolution Log
 
+- 2026-07-05 v1.0.2 — Retired `using-minimax`（使用者停用 Minimax）: skill deleted, removed
+  from all bundles, global-rules §0 Model Routing removed — 觸發事件: 示範「退役 skill」
+  的完整流程——活文件全清、歷史稽核與 Evolution Log 保留原文並加註增補，而非竄改。
 - 2026-07-04 v1.0.1 — Fixed audit-file location to `audits/YYYY-MM-DD-<topic>-audit.md` —
   觸發事件: 使用者追問「內容都有落檔嗎？」時發現當日稽核報告只存在對話與 commit message，
   違反本 skill 自己的稽核流程；同時補齊兩個新 skill 欠缺的 SKILL_AUDIT.md。教訓：交付前
