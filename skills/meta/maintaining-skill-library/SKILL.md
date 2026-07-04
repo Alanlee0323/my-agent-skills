@@ -1,7 +1,7 @@
 ---
 name: maintaining-skill-library
 description: Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log convention, and the periodic drift audit. Use when adding, renaming, moving, or retiring a skill, when updating bundles or routing, or when the user asks 維護, 盤點, 一致性檢查, or library health.
-version: 1.0.0
+version: 1.0.1
 ---
 
 # Maintaining the Skill Library
@@ -93,8 +93,10 @@ Use `researching-deeply` methodology against the library itself:
    versions) — verify identifiers are still current (e.g., model names in `using-minimax`).
 4. **Bundle-fit review**: re-run the `FINANCE_BUNDLE_AUDIT.md`-style review for any bundle
    whose composition changed since its last audit; date the audit header.
-5. Write findings to a dated audit file; convert each accepted finding into either a fix
-   commit or an Evolution Log entry explaining why it was declined.
+5. Write findings to a dated audit file in `audits/` (format:
+   `audits/YYYY-MM-DD-<topic>-audit.md`, see the 2026-07-04 baseline there); convert each
+   accepted finding into either a fix commit or an Evolution Log entry explaining why it
+   was declined. Carry forward the previous audit's 未償債務 checklist.
 
 ## External Toolchain Registry（不在本 repo 的依賴）
 
@@ -119,6 +121,10 @@ should enforce), not as active enforcement.
 
 ## Evolution Log
 
+- 2026-07-04 v1.0.1 — Fixed audit-file location to `audits/YYYY-MM-DD-<topic>-audit.md` —
+  觸發事件: 使用者追問「內容都有落檔嗎？」時發現當日稽核報告只存在對話與 commit message，
+  違反本 skill 自己的稽核流程；同時補齊兩個新 skill 欠缺的 SKILL_AUDIT.md。教訓：交付前
+  對自己執行 negative-space check（researching-deeply 原則 5/6）。
 - 2026-07-04 v1.0.0 — Initial version — 觸發事件: full-library audit (Claude Fable 5 final
   session) found 7 drift defects accumulated between skill count 24→49 with no detection
   mechanism: routing name mismatch (`storytelling-financial-analysis-vincent` vs

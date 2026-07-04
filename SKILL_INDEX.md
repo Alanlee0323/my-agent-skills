@@ -19,7 +19,7 @@
 | Skill | Version | Description |
 |---|---|---|
 | [`creating-agent-skills`](skills/meta/creating-agent-skills/SKILL.md) | — | Expert system for generating Agent Skills compatible with any LLM agent (Copilot, Gemini, Codex, Claude, etc.). Enforces folder structure, YAML standards, and best practices. |
-| [`maintaining-skill-library`](skills/meta/maintaining-skill-library/SKILL.md) | 1.0.0 | Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log ... |
+| [`maintaining-skill-library`](skills/meta/maintaining-skill-library/SKILL.md) | 1.0.1 | Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log ... |
 | [`reviewing-agent-skills`](skills/meta/reviewing-agent-skills/SKILL.md) | — | Acts as a QA Auditor and Red Team for new Agent Skills. Verifies structure, safety guardrails, and compliance with global-rules. |
 
 ## Engineer（工程）（14）
