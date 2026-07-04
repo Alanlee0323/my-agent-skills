@@ -1,9 +1,6 @@
 ---
 name: using-minimax
-description: |
-  以 Minimax 作為主力執行者處理絕大多數任務（草稿、實作、分析初版），
-  Copilot / Codex 僅擔任 Review Gate——審查 Minimax 輸出、標記偏差、
-  執行最終糾錯——以最小高階 token 消耗確保品質。
+description: 以 Minimax 作為主力執行者處理絕大多數任務（草稿、實作、分析初版），Copilot / Codex 僅擔任 Review Gate——審查 Minimax 輸出、標記偏差、執行最終糾錯——以最小高階 token 消耗確保品質。
 tags: [shared, cost-optimization, model-routing, minimax, draft-review]
 version: 2.0.0
 ---
