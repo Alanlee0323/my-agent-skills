@@ -3,15 +3,17 @@
 > **此檔案由 `tools/generate_skill_index.py` 自動生成**，
 > 請勿手動編輯；修改 skill frontmatter 後重新執行腳本（CI 會驗證同步）。
 
-共 **50** 個 skill。
+共 **55** 個 skill。
 
-## Shared（跨領域共用）（4）
+## Shared（跨領域共用）（6）
 
 | Skill | Version | Description |
 |---|---|---|
 | [`creating-skills-from-knowledge-folder`](skills/shared/creating-skills-from-knowledge-folder/SKILL.md) | — | Creates new agent skills from a user-specified knowledge folder. Use when the user asks to convert notes, docs, templates, or domain references into reusable SKILL.md packages. |
+| [`initializing-agent-context`](skills/shared/initializing-agent-context/SKILL.md) | 1.0.0 | Creates and maintains agent onboarding files (AGENTS.md, CLAUDE.md, GEMINI.md, copilot-instructions) for a repository — what belongs in them, what must stay out, and how to veri... |
 | [`researching-deeply`](skills/shared/researching-deeply/SKILL.md) | 1.0.0 | Systematic deep-investigation methodology for auditing codebases, evaluating systems, and researching complex questions. Enforces breadth-first mapping, claim-evidence disciplin... |
 | [`using-minimax`](skills/shared/using-minimax/SKILL.md) | 2.0.0 | 以 Minimax 作為主力執行者處理絕大多數任務（草稿、實作、分析初版）， Copilot / Codex 僅擔任 Review Gate——審查 Minimax 輸出、標記偏差、 執行最終糾錯——以最小高階 token 消耗確保品質。 |
+| [`visualizing-data`](skills/shared/visualizing-data/SKILL.md) | 1.0.0 | Design methodology for charts, dashboards, and data visualizations in any medium or library — form selection by data relationship, a disciplined color system, decluttering rules... |
 | [`writing-technical-docs`](skills/shared/writing-technical-docs/SKILL.md) | — | Use this skill when creating, rewriting, structuring, or reviewing technical documentation in Chinese. Suitable for 技術文件, 文件撰寫, 教學文件, 操作指南, 架構說明, API 文件, README 重構, and troubles... |
 
 ## Meta（技能開發與治理）（3）
@@ -22,7 +24,7 @@
 | [`maintaining-skill-library`](skills/meta/maintaining-skill-library/SKILL.md) | 1.0.1 | Governance loop for this skill library. Defines the single-source-of-truth map, the validation workflow, the definition of done for adding or changing skills, the evolution-log ... |
 | [`reviewing-agent-skills`](skills/meta/reviewing-agent-skills/SKILL.md) | — | Acts as a QA Auditor and Red Team for new Agent Skills. Verifies structure, safety guardrails, and compliance with global-rules. |
 
-## Engineer（工程）（14）
+## Engineer（工程）（17）
 
 | Skill | Version | Description |
 |---|---|---|
@@ -36,10 +38,13 @@
 | [`managing-cicd-workflow`](skills/engineer/managing-cicd-workflow/SKILL.md) | — | Professional trunk-based development with branch-for-release workflow. Focuses on automation, environment isolation, and immutable releases via tags. |
 | [`managing-environment`](skills/engineer/managing-environment/SKILL.md) | — | Infrastructure Architect and Guardian of Reproducibility. Balances "Docker-First" for complex apps with "Venv-Efficiency" for lightweight projects. |
 | [`planning-implementation`](skills/engineer/planning-implementation/SKILL.md) | — | Converts approved designs or detailed requirements into actionable, atomic implementation steps. Use when the user approves a design or asks "how to implement". |
+| [`reviewing-code-changes`](skills/engineer/reviewing-code-changes/SKILL.md) | 1.0.0 | Reviews a diff or pending changes for correctness bugs using a findings-first discipline — hypothesize concrete failure scenarios, verify each finding against the code before re... |
 | [`sdd-driven-development`](skills/engineer/sdd-driven-development/SKILL.md) | — | Guides Specification-Driven Development (SDD) from ambiguous requests to clear, testable specs before coding. Use when the user asks for 規格驅動開發, spec-first workflow, 先寫規格再寫程式, o... |
+| [`simplifying-code`](skills/engineer/simplifying-code/SKILL.md) | 1.0.0 | Post-implementation cleanup pass that hunts reuse, simplification, efficiency, and abstraction-level (altitude) improvements in changed code while preserving behavior. Use after... |
 | [`using-dvc`](skills/engineer/using-dvc/SKILL.md) | — | Provides commands and patterns for Data Version Control (DVC). Use when the user asks about versioning large files, creating pipelines, or reproducing experiments. |
 | [`using-mlflow`](skills/engineer/using-mlflow/SKILL.md) | — | Provides MLflow documentation covering Tracking, Projects, Models, and Registry. Use when the user asks about MLflow features, APIs, implementation, or debugging. |
 | [`using-ultralytics`](skills/engineer/using-ultralytics/SKILL.md) | — | Expert system for Ultralytics YOLO workflows (including YOLO26). Use when the user asks about training, validation, inference, dataset setup, model export, tracking, or performa... |
+| [`verifying-changes`](skills/engineer/verifying-changes/SKILL.md) | 1.0.0 | Verifies that a code change actually does what it claims by exercising the affected flow end-to-end and observing real behavior — not just tests or typecheck. Use before committ... |
 
 ## Finance（金融投資）（23）
 

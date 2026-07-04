@@ -16,8 +16,14 @@ skills:
   - handling-review
   - managing-cicd-workflow
   - conducting-postmortem
+  # quality gate trio: verify -> review -> simplify (run in this order before commit)
+  - verifying-changes
+  - reviewing-code-changes
+  - simplifying-code
   - creating-skills-from-knowledge-folder
   - writing-technical-docs
+  - initializing-agent-context
+  - visualizing-data
   - researching-deeply
 policy_overrides:
   output_language: zh-TW

@@ -65,6 +65,11 @@ your-project/
 | [reviewing-agent-skills](skills/meta/reviewing-agent-skills/SKILL.md) | 技能品質審計與紅隊檢查 | 審計規則若過嚴會抑制迭代速度 | 以風險優先級定義必過/可延後項目 |
 | [creating-skills-from-knowledge-folder](skills/shared/creating-skills-from-knowledge-folder/SKILL.md) | 從指定知識資料夾批次生成技能 | 知識來源噪音或衝突導致 skill 品質下降 | 強制先做資料盤點、再經 creator/reviewer 雙步流程 |
 | [conducting-postmortem](skills/engineer/conducting-postmortem/SKILL.md) | 事故回饋與技能持續改進 | 事故樣本偏差造成錯誤優化方向 | 要求跨事件比對，避免單一案例過擬合 |
+| [verifying-changes](skills/engineer/verifying-changes/SKILL.md) | 改動後驅動真實流程取得執行證據 | 以「測試通過」冒充功能驗證 | 完成報告必附指令+輸出+預期比對；無法執行標 UNVERIFIED |
+| [reviewing-code-changes](skills/engineer/reviewing-code-changes/SKILL.md) | findings-first 審 diff 找正確性缺陷 | 未驗證直覺當 finding 製造雜訊 | 報告前逐項驗證；空結果合法；嚴重度排序 |
+| [simplifying-code](skills/engineer/simplifying-code/SKILL.md) | 重用/精簡/效率/抽象高度清理 | 清理誤改行為、過早抽象 | 行為不變為前提；每項清理後重新驗證 |
+| [visualizing-data](skills/shared/visualizing-data/SKILL.md) | 圖表/儀表板設計方法論 | 軸截斷、雙 Y 軸、紅綠慣例誤用誤導讀者 | 圖表誠信區不可協商；台美紅綠慣例需圖例明示 |
+| [initializing-agent-context](skills/shared/initializing-agent-context/SKILL.md) | 建立/維護 AGENTS.md 等 agent 上下文檔 | 寫入未驗證指令成為負資產 | 每條指令實跑後才寫入；100 行上限；單一 canonical 檔 |
 | [parsing-sec-filings](skills/finance/parsing-sec-filings/SKILL.md) | 擷取 10-K/10-Q/8-K 結構化重點 | 引用錯誤期別或錯誤發行人 | 強制附上 form/date/accession 與章節引用 |
 | [normalizing-financial-statements](skills/finance/normalizing-financial-statements/SKILL.md) | 財報欄位標準化與可比化 | 單位與會計口徑不一致導致誤判 | 強制單位檢查、期間對齊、缺值標記 |
 | [analyzing-business-quality](skills/finance/analyzing-business-quality/SKILL.md) | 企業品質與護城河評估 | 敘事偏誤壓過財務事實 | 強制 bull/bear 雙面證據與信心分級 |
