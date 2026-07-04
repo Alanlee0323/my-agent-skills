@@ -1,5 +1,5 @@
 ---
-name: translating-financial-analysis-vincent-style
+name: storytelling-financial-analysis-vincent
 description: Translates evidence-backed financial research into structured Traditional Chinese narrative with Vincent-like long-form explanatory cadence. Use when the user asks for educational deep-dives, podcast scripts, or social posts that retain analytical rigor.
 ---
 

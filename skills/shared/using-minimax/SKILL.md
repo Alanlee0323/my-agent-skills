@@ -88,7 +88,7 @@ RESULT=$(curl -s "${MINIMAX_BASE_URL}/text/chatcompletion_v2" \
   -H "Authorization: Bearer ${MINIMAX_API_KEY}" \
   -H "Content-Type: application/json" \
   -d "{
-    \"model\": \"MiniMax-Text-01\",
+    \"model\": \"MiniMax-M2.7\",
     \"messages\": [
       {\"role\": \"system\", \"content\": \"你是資深工程師，請完成以下任務並在最後以 JSON 輸出 {\\\"confidence\\\": \\\"high|medium|low\\\", \\\"risks\\\": [...]}\"},
       {\"role\": \"user\", \"content\": \"${TASK_CONTENT}\"}
@@ -213,5 +213,5 @@ def copilot_review(draft: str, review_points: list[str]) -> str:
 ## Audit Log 格式
 
 ```
-[using-minimax] 2026-05-07T08:17:54+08:00 | task=code-draft | model=MiniMax-Text-01 | confidence=high | verdict=APPROVED | minimax_tokens=1840 | copilot_tokens=120
+[using-minimax] 2026-05-07T08:17:54+08:00 | task=code-draft | model=MiniMax-M2.7 | confidence=high | verdict=APPROVED | minimax_tokens=1840 | copilot_tokens=120
 ```

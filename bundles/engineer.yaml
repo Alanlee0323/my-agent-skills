@@ -17,7 +17,8 @@ skills:
   - managing-cicd-workflow
   - conducting-postmortem
   - creating-skills-from-knowledge-folder
-  - technical-doc-writer
+  - writing-technical-docs
+  - researching-deeply
 policy_overrides:
   output_language: zh-TW
   max_skill_reads: 3

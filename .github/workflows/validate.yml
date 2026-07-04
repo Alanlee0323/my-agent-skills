@@ -1,0 +1,25 @@
+name: validate-skill-library
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # 一致性驗證：name==folder、bundle/路由引用、資源存在性、readme 連結
+      - name: Validate skill library consistency
+        run: python tools/validate_skills.py
+      # 索引必須與 frontmatter 同步（generated artifact 不得手動漂移）
+      - name: Verify SKILL_INDEX.md is up to date
+        run: |
+          python tools/generate_skill_index.py
+          git diff --exit-code SKILL_INDEX.md || {
+            echo '::error::SKILL_INDEX.md is stale. Run: python tools/generate_skill_index.py'
+            exit 1
+          }

@@ -29,7 +29,11 @@ The `SKILL.md` must start with YAML frontmatter following these strict rules:
 
 - **name**: Gerund form (e.g., `testing-code`, `managing-databases`). Max 64 chars. Lowercase, numbers, and hyphens only. No agent brand names (claude, gemini, copilot, codex, anthropic, openai) in the name.
 
+- **Identifier invariant**: `name` MUST equal the folder name exactly. The same token is used by routing tables, bundles, and the index — one identifier, everywhere. The file MUST be named `SKILL.md` (uppercase — case matters on Linux/CI).
+
 - **description**: Written in **third person**. Must include specific triggers/keywords. Max 1024 chars. (e.g., "Extracts text from PDFs. Use when the user mentions document processing or PDF files.")
+
+- **version** (recommended): Semver string. Bump it with every substantive change, paired with an `## Evolution Log` entry at the end of the body recording *what changed* and *the incident/lesson that motivated it* (觸發事件). This is how experience survives handoffs.
 
 
 
@@ -54,6 +58,17 @@ When writing the body of `SKILL.md`, adhere to these best practices:
     - Use **Specific Bash Commands** for low-freedom (fragile operations).
 
 
+
+## 3.5 Post-Generation Gate (Non-Negotiable)
+
+After writing a skill into this library, ALWAYS:
+
+1. Run `python tools/validate_skills.py` — fix every `[FAIL]` before proceeding.
+2. Run `python tools/generate_skill_index.py` to refresh `SKILL_INDEX.md`.
+3. Add the skill to the appropriate `bundles/*.yaml` (or record why not in its Evolution Log).
+4. Hand off to `reviewing-agent-skills` for the audit (`SKILL_AUDIT.md`).
+
+Full definition of done: see `skills/meta/maintaining-skill-library/SKILL.md`.
 
 ## 4. Workflow & Feedback Loops
 

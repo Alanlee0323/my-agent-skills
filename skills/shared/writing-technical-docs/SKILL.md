@@ -1,5 +1,5 @@
 ---
-name: technical-doc-writer
+name: writing-technical-docs
 description: Use this skill when creating, rewriting, structuring, or reviewing technical documentation in Chinese. Suitable for 技術文件, 文件撰寫, 教學文件, 操作指南, 架構說明, API 文件, README 重構, and troubleshooting docs. It classifies docs with Diataxis, defines audience and single goal, and generates a skimmable Markdown structure.
 ---
 
@@ -36,7 +36,7 @@ description: Use this skill when creating, rewriting, structuring, or reviewing 
 若任務是「大規模技術文件規劃」，優先順序為：
 
 1. `planning-implementation`
-2. `technical-doc-writer`
+2. `writing-technical-docs`
 3. `handling-review`
 
 ## When to use this skill

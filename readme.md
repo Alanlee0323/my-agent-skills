@@ -13,14 +13,17 @@ your-project/
 │  ├─ skills/
 │  │  ├─ shared/                       ← 跨 agent 共用技能
 │  │  ├─ engineer/                     ← 工程領域技能
-│  │  ├─ finance/                      ← 金融領域技能
-│  │  └─ meta/                         ← 技能開發/審核類技能
-│  ├─ bundles/
+│  │  ├─ finance/                      ← 金融投資領域技能
+│  │  ├─ career/                       ← 留學/職涯領域技能
+│  │  └─ meta/                         ← 技能開發/審核/治理類技能
+│  ├─ bundles/                         ← 角色技能包（engineer/finance/career）
 │  ├─ policies/
 │  ├─ profiles/
+│  ├─ tools/                           ← validate_skills.py / generate_skill_index.py
+│  ├─ SKILL_INDEX.md                   ← 自動生成的完整技能索引（勿手編）
 │  └─ global-rules.md
 ├─ AGENTS.md
-└─ skill_scheduler.py
+└─ skill_scheduler.py                  ← 外部工具（未 vendor，見 maintaining-skill-library）
 ```
 
 ### 優先順序規則
@@ -43,20 +46,23 @@ your-project/
 
 ## 2) Global Skill Inventory（含潛在風險）
 
+> **完整技能清單以 [SKILL_INDEX.md](SKILL_INDEX.md) 為準**（由 `tools/generate_skill_index.py` 自動生成）。
+> 下表是精選技能的風險控制備註，屬人工維護的補充說明，不保證涵蓋全部技能。
+
 | Skill | 主要職責 | 潛在風險 | 風險控制建議 |
 |---|---|---|---|
-| [brainstorming-product-design](skills/engineer/brainstorming/skill.md) | 需求探索與產品構想釐清 | 需求尚未收斂就進入實作，造成返工 | 先輸出可驗證需求，再交由 planning 拆解 |
-| [planning-implementation](skills/engineer/planning/skill.md) | 產出可執行的實作步驟 | 過度規劃或步驟粒度不一致，影響執行效率 | 強制原子化步驟，並在每階段加入驗證點 |
+| [brainstorming-product-design](skills/engineer/brainstorming-product-design/SKILL.md) | 需求探索與產品構想釐清 | 需求尚未收斂就進入實作，造成返工 | 先輸出可驗證需求，再交由 planning 拆解 |
+| [planning-implementation](skills/engineer/planning-implementation/SKILL.md) | 產出可執行的實作步驟 | 過度規劃或步驟粒度不一致，影響執行效率 | 強制原子化步驟，並在每階段加入驗證點 |
 | [managing-environment](skills/engineer/managing-environment/SKILL.md) | 依賴安裝、環境初始化、容器化決策 | Docker-first 在非容器場景可能增加啟動成本 | 先檢查專案現況，保留 venv/conda 合理落地分支 |
 | [handling-review](skills/engineer/handling-review/SKILL.md) | 審查意見技術化評估與執行 | 過度保守造成變更吞吐下降 | 區分阻斷性問題與一般建議，採分層處理 |
 | [auditing-code](skills/engineer/auditing-code/SKILL.md) | 靜態分析、資安檢查、反模式偵測 | 誤報造成噪音，影響決策速度 | 將檢查結果分級（Critical/High/Info）並附可重現證據 |
-| [managing-cicd-workflow](skills/engineer/cicd-skills/SKILL.md) | 通用 trunk-based CI/CD 流程 | 過度通用導致專案細節遺漏 | 搭配 `./skills/` project override 補充專案參數 |
+| [managing-cicd-workflow](skills/engineer/managing-cicd-workflow/SKILL.md) | 通用 trunk-based CI/CD 流程 | 過度通用導致專案細節遺漏 | 搭配 `./skills/` project override 補充專案參數 |
 | [evaluating-models](skills/engineer/evaluating-models/SKILL.md) | 模型評估、指標比較、結果解讀 | 指標導向偏誤，忽略資料品質與成本約束 | 評估結論必須同時附資料假設與使用情境 |
 | [using-ultralytics](skills/engineer/using-ultralytics/SKILL.md) | YOLO 系列訓練/推論/部署指引 | 版本更新快，文件易過期 | 引用前標註版本，必要時回查官方文件 |
 | [using-mlflow](skills/engineer/using-mlflow/SKILL.md) | MLflow Tracking/Registry 實作指引 | 實驗命名與追蹤規範不一致，導致可追溯性下降 | 先統一命名規範與 artifact policy 再執行 |
 | [using-dvc](skills/engineer/using-dvc/SKILL.md) | 資料與模型版本治理 | `dvc commit` / `git commit` 不同步造成狀態漂移 | 在流程中加入同步檢查與 pre-commit 驗證 |
-| [creating-agent-skills](skills/meta/gemini-skill-creator/skill.md) | 生成新技能框架與模板 | 快速生成可能複製舊規範缺陷 | 產出後必須經 reviewer skill 審核 |
-| [reviewing-agent-skills](skills/meta/gemini-skill-reviewer/SKILL.md) | 技能品質審計與紅隊檢查 | 審計規則若過嚴會抑制迭代速度 | 以風險優先級定義必過/可延後項目 |
+| [creating-agent-skills](skills/meta/creating-agent-skills/SKILL.md) | 生成新技能框架與模板 | 快速生成可能複製舊規範缺陷 | 產出後必須經 reviewer skill 審核 |
+| [reviewing-agent-skills](skills/meta/reviewing-agent-skills/SKILL.md) | 技能品質審計與紅隊檢查 | 審計規則若過嚴會抑制迭代速度 | 以風險優先級定義必過/可延後項目 |
 | [creating-skills-from-knowledge-folder](skills/shared/creating-skills-from-knowledge-folder/SKILL.md) | 從指定知識資料夾批次生成技能 | 知識來源噪音或衝突導致 skill 品質下降 | 強制先做資料盤點、再經 creator/reviewer 雙步流程 |
 | [conducting-postmortem](skills/engineer/conducting-postmortem/SKILL.md) | 事故回饋與技能持續改進 | 事故樣本偏差造成錯誤優化方向 | 要求跨事件比對，避免單一案例過擬合 |
 | [parsing-sec-filings](skills/finance/parsing-sec-filings/SKILL.md) | 擷取 10-K/10-Q/8-K 結構化重點 | 引用錯誤期別或錯誤發行人 | 強制附上 form/date/accession 與章節引用 |
@@ -80,6 +86,12 @@ your-project/
 
 ## 4) 維運建議（給技能維護者）
 
+> **治理主文件：[`skills/meta/maintaining-skill-library/SKILL.md`](skills/meta/maintaining-skill-library/SKILL.md)**
+> （唯一事實來源地圖、Definition of Done、Evolution Log 規範、定期漂移稽核流程）。
+
+- **任何結構變更前後必跑**：
+  - `python tools/validate_skills.py`（一致性驗證，CI 亦會執行）
+  - `python tools/generate_skill_index.py`（重生成 SKILL_INDEX.md）
 - 每次新增/修改 skill，至少更新：
   - 對應 frontmatter（`name`, `description`）
   - 觸發條件（When to use this skill）

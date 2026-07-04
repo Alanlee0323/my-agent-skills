@@ -1,5 +1,12 @@
 # Finance Bundle Audit
 
+> **增補（2026-07-04）**：本審計撰寫於 finance bundle 僅含 12 個 skill 的時期，已過期。
+> 2026-07-04 的全庫稽核後，bundle 擴充為 25 個 skill（補入 global-rules 標記 MANDATORY
+> 的 `scanning-macro-news`、`monitoring-geopolitical-risk` 等 13 個缺漏技能），並將 6 個
+> 留學/職涯技能分拆至 `bundles/career.yaml`。新增技能尚未逐一重審——下次執行
+> `maintaining-skill-library` 的 Periodic Drift Audit 時，需以本檔格式對擴充後的
+> bundle 重新出具審計。原始內容保留如下，作為審計基線。
+
 ## Scope
 
 Audit target:

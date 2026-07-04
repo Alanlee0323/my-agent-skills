@@ -1,18 +1,39 @@
 name: finance
-description: Financial statement analysis, macro regime interpretation, valuation, and long-term investing discipline bundle
+description: Financial statement analysis, macro regime interpretation, valuation, portfolio discipline, and evidence-first investing bundle
 skills:
+  # model routing
   - using-minimax
+  # planning & data foundation
   - planning-financial-analysis
+  - collecting-market-data
+  - validating-financial-data
   - parsing-sec-filings
   - normalizing-financial-statements
+  # macro & context (MANDATORY before any investment analysis per global-rules)
+  - scanning-macro-news
+  - monitoring-geopolitical-risk
+  - analyzing-macro-regime
+  # company & thesis analysis
   - analyzing-business-quality
   - valuing-company
-  - analyzing-macro-regime
+  - analyzing-market-expectations
+  - scanning-thematic-opportunities
+  - constructing-forward-scenarios
+  - tracking-catalyst-calendar
+  # portfolio & risk
   - managing-long-term-investment-policy
+  - sizing-portfolio-positions
+  - stress-testing-portfolio
+  - attributing-portfolio-performance
+  # verification & review gates
   - verifying-financial-conclusions
   - reviewing-financial-analysis
   - conducting-investment-postmortem
-  - creating-skills-from-knowledge-folder
+  # narrative output
+  - storytelling-financial-analysis-vincent
+  - storytelling-financial-analysis-xie
+  # research methodology
+  - researching-deeply
 policy_overrides:
   output_language: zh-TW
   max_skill_reads: 5

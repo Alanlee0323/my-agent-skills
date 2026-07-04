@@ -1,5 +1,5 @@
 ---
-name: translating-financial-analysis-xie-style
+name: storytelling-financial-analysis-xie
 description: Translates evidence-backed financial research into high-energy Traditional Chinese market storytelling with Xie-like cadence. Use when the user asks for podcast scripts, social posts, or quick commentary based on existing report facts and citations.
 ---
 

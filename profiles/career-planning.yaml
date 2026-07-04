@@ -1,0 +1,10 @@
+name: career-planning
+bundle: career
+agents:
+  - codex
+  - copilot
+  - gemini
+skills_repo: my-agent-skills
+adapter_output: .agent
+max_skill_reads: 4
+generate_launchers: true

@@ -27,6 +27,8 @@ Before improvisation, check context and INVOKE the specific skill:
 - **Environment/Deps/ModuleNotFoundError/缺少套件** → `managing-environment` (Docker First, then Venv)
 - **Self-Improvement** → `conducting-postmortem` (Update Skills after Incidents)
 - **Agent Skill QA** → `reviewing-agent-skills` (Red Team New Skills)
+- **深度檢視/稽核/盤點/Deep Research** → `researching-deeply` (Map-first, evidence-first investigation)
+- **Skill 庫維護/新增/改名/一致性** → `maintaining-skill-library` (Run validator + definition of done)
 - **宏觀/時事/戰爭/油價** → `scanning-macro-news` + `monitoring-geopolitical-risk` (MANDATORY: 任何投資分析前必須先掃描)
 - **股價/匯率/即時數據** → `collecting-market-data` (收集最新價格後再進行估值)
 - **壓力測試/風險/黑天鵝** → `stress-testing-portfolio` (量化情境影響)

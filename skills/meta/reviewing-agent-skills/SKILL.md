@@ -20,11 +20,20 @@ You are the **Antigravity Skill Auditor**. Your job is to "stress test" and "red
 
 ## Workflow
 
+### 0. Mechanical Validation (run FIRST, in this library)
+```bash
+python tools/validate_skills.py
+```
+Every `[FAIL]` is an automatic audit failure. Do not spend manual review effort on
+anything the validator already catches — start where the machine stops.
+
 ### 1. Static Analysis (The Syntax Check)
 **Check**:
-- [ ] YAML Frontmatter: Name is gerund? Description is 3rd person?
-- [ ] Folder Structure: `SKILL.md` present?
+- [ ] YAML Frontmatter: Name is gerund? Description is 3rd person? Name == folder name?
+- [ ] Folder Structure: `SKILL.md` (uppercase) present?
 - [ ] Language: Is specific output language enforced (if needed)?
+- [ ] Evolution Log: present with a dated entry? Guardrails carry their 觸發事件 (origin story)?
+- [ ] Referenced resources exist (no phantom `resources` or corpus paths)?
 
 ### 2. Security Audit (The Red Team)
 **Action**: Perform a "Mental Simulation" of these attacks:

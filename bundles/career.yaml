@@ -1,0 +1,14 @@
+name: career
+description: Study-abroad program research, career ROI evaluation, job market scanning, visa policy comparison, and application planning bundle
+skills:
+  - using-minimax
+  - researching-programs
+  - evaluating-career-roi
+  - scanning-job-market
+  - comparing-visa-policies
+  - benchmarking-alumni
+  - planning-application
+  - researching-deeply
+policy_overrides:
+  output_language: zh-TW
+  max_skill_reads: 4
